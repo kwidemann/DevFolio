@@ -21,7 +21,7 @@ export function ThemeToggle() {
   } as const;
 
   return (
-    <div className="relative inline-flex items-center">
+    <div className="relative inline-flex items-center" suppressHydrationWarning>
       <button
         onClick={() => {
           const themes = ['light', 'dark', 'system'] as const;
@@ -31,6 +31,7 @@ export function ThemeToggle() {
         className="btn-ghost relative h-10 w-10 rounded-lg"
         aria-label={labels[currentTheme]}
         title={labels[currentTheme]}
+        suppressHydrationWarning
       >
         <motion.div
           animate={{ rotate: theme === 'dark' ? 180 : 0 }}
