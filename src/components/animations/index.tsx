@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, HTMLMotionProps } from 'framer-motion';
+import { motion, HTMLMotionProps, useScroll, useTransform } from 'framer-motion';
 import { ReactNode, forwardRef } from 'react';
 
 interface FadeInProps extends HTMLMotionProps<'div'> {
@@ -181,8 +181,6 @@ export function Parallax({
     </motion.div>
   );
 }
-
-import { useScroll, useTransform } from 'framer-motion';
 
 export function TextReveal({
   children,
