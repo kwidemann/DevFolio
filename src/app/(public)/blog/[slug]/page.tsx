@@ -4,7 +4,7 @@ import { PublicLayout } from '@/components/layout/PublicLayout';
 import { getBlogPostBySlug } from '@/data/content';
 import { formatDate, getReadingTime, extractHeadings } from '@/lib/utils';
 import { Calendar, Clock, Tag, ArrowLeft, ChevronRight, Github, Twitter, Linkedin, FileText } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { MotionDiv, MotionH1, MotionP, MotionArticle } from '@/components/animations/ClientMotion';
 import Link from 'next/link';
 import { ShareButton } from '@/components/ShareButton';
 
@@ -110,7 +110,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             </div>
           )}
           <div className="container-custom relative z-10">
-            <motion.div
+            <MotionDiv
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -128,15 +128,15 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                   </Link>
                 ))}
               </div>
-              <motion.h1
+              <MotionH1
                 className="text-display-lg lg:text-display-xl font-bold tracking-tight text-foreground mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1, duration: 0.5 }}
               >
                 {post.title}
-              </motion.h1>
-              <motion.div
+              </MotionH1>
+              <MotionDiv
                 className="flex flex-wrap items-center gap-6 text-muted-foreground text-sm"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -152,8 +152,8 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                   <Clock className="h-4 w-4" aria-hidden="true" />
                   {post.reading_time || getReadingTime(content)} min de lectura
                 </span>
-              </motion.div>
-            </motion.div>
+              </MotionDiv>
+            </MotionDiv>
           </div>
         </header>
 
@@ -163,7 +163,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             {/* Main Content */}
             <div className="max-w-4xl">
               {/* Share & Back */}
-              <motion.div
+              <MotionDiv
                 className="flex items-center justify-between mb-8 pb-6 border-b border-border"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -179,10 +179,10 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 <div className="flex items-center gap-2">
                   <ShareButton url={`/blog/${post.slug}`} title={post.title} />
                 </div>
-              </motion.div>
+              </MotionDiv>
 
               {/* MDX Content */}
-              <motion.div
+              <MotionDiv
                 className="prose prose-lg max-w-none dark:prose-invert"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -201,10 +201,10 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                     },
                   }}
                 />
-              </motion.div>
+              </MotionDiv>
 
               {/* Footer Tags */}
-              <motion.div
+              <MotionDiv
                 className="mt-16 pt-8 border-t border-border flex flex-wrap items-center gap-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -222,13 +222,13 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                     </Link>
                   ))}
                 </div>
-              </motion.div>
+              </MotionDiv>
             </div>
 
             {/* Sidebar - Table of Contents */}
             {headings.length > 0 && (
               <aside className="hidden lg:block">
-                <motion.div
+                <MotionDiv
                   className="sticky top-28 space-y-4"
                   initial={{ opacity: 0, x: 30 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -270,7 +270,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                       Suscribirme
                     </Link>
                   </div>
-                </motion.div>
+                </MotionDiv>
               </aside>
             )}
           </div>
@@ -293,7 +293,7 @@ function RelatedPosts({ currentSlug }: { currentSlug: string }) {
   return (
     <div className="grid gap-6 md:grid-cols-3">
       {[1, 2, 3].map((i) => (
-        <motion.article
+        <MotionArticle
           key={i}
           className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/30 transition-all duration-300"
           whileHover={{ y: -8, boxShadow: '0 25px 50px -12px hsl(var(--primary) / 0.1)' }}
@@ -322,7 +322,7 @@ function RelatedPosts({ currentSlug }: { currentSlug: string }) {
               <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
             </Link>
           </div>
-        </motion.article>
+        </MotionArticle>
       ))}
     </div>
   );

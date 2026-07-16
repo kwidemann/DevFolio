@@ -5,7 +5,7 @@ import { getProjectBySlug } from '@/data/content';
 import { formatDate, cn } from '@/lib/utils';
 import Link from 'next/link';
 import { Github, ExternalLink, ArrowLeft, ArrowRight, Clock, Calendar, Tag, Star, Code2, Server, Database, Cpu, Wrench, Users } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { MotionDiv, MotionH1, MotionP, MotionArticle, MotionSpan } from '@/components/animations/ClientMotion';
 
 interface PageProps {
   params: { slug: string };
@@ -33,7 +33,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
         {/* Hero */}
         <section className="relative min-h-[60vh] flex items-center overflow-hidden">
           {project.thumbnail_url && (
-            <motion.div
+            <MotionDiv
               className="absolute inset-0 z-0"
               initial={{ scale: 1.1 }}
               animate={{ scale: 1 }}
@@ -45,11 +45,11 @@ export default function ProjectDetailPage({ params }: PageProps) {
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent" />
-            </motion.div>
+            </MotionDiv>
           )}
 
           <div className="container-custom relative z-10 py-20 lg:py-32">
-            <motion.div
+            <MotionDiv
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -65,7 +65,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
               </Link>
 
               {/* Badges */}
-              <motion.div
+              <MotionDiv
                 className="flex flex-wrap gap-2 mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -80,28 +80,28 @@ export default function ProjectDetailPage({ params }: PageProps) {
                 <span className="badge-primary text-sm">
                   {project.category.charAt(0).toUpperCase() + project.category.slice(1)}
                 </span>
-              </motion.div>
+              </MotionDiv>
 
-              <motion.h1
+              <MotionH1
                 className="text-display-lg lg:text-display-xl font-bold tracking-tight text-foreground mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
                 {project.title}
-              </motion.h1>
+              </MotionH1>
 
-              <motion.p
+              <MotionP
                 className="text-body-lg lg:text-heading-sm text-muted-foreground leading-relaxed mb-8 max-w-3xl"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
               >
                 {project.short_description}
-              </motion.p>
+              </MotionP>
 
               {/* Meta */}
-              <motion.div
+              <MotionDiv
                 className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -124,10 +124,10 @@ export default function ProjectDetailPage({ params }: PageProps) {
                   <Clock className="h-4 w-4" aria-hidden="true" />
                   {project.tech_stack.length} tecnologías
                 </span>
-              </motion.div>
+              </MotionDiv>
 
               {/* Action Links */}
-              <motion.div
+              <MotionDiv
                 className="flex flex-wrap gap-4 mt-8"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -166,8 +166,8 @@ export default function ProjectDetailPage({ params }: PageProps) {
                     <ArrowRight className="h-4 w-4 ml-2" aria-hidden="true" />
                   </Link>
                 )}
-              </motion.div>
-            </motion.div>
+              </MotionDiv>
+            </MotionDiv>
           </div>
         </section>
 
@@ -178,7 +178,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-16">
                 {/* Description */}
-                <motion.div
+                <MotionDiv
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-100px' }}
@@ -190,10 +190,10 @@ export default function ProjectDetailPage({ params }: PageProps) {
                       <p key={i}>{paragraph}</p>
                     ))}
                   </div>
-                </motion.div>
+                </MotionDiv>
 
                 {/* Tech Stack Detail */}
-                <motion.div
+                <MotionDiv
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-100px' }}
@@ -204,7 +204,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
                     {project.tech_stack.map((tech, i) => {
                       const Icon = getTechIcon(tech);
                       return (
-                        <motion.span
+                        <MotionSpan
                           key={tech}
                           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-border text-sm font-medium hover:border-primary/30 transition-colors"
                           initial={{ opacity: 0, scale: 0.9 }}
@@ -213,15 +213,15 @@ export default function ProjectDetailPage({ params }: PageProps) {
                         >
                           {Icon && <Icon className="h-4 w-4 text-primary" aria-hidden="true" />}
                           {tech}
-                        </motion.span>
+                        </MotionSpan>
                       );
                     })}
                   </div>
-                </motion.div>
+                </MotionDiv>
 
                 {/* Images Gallery */}
                 {project.images && project.images.length > 0 && (
-                  <motion.div
+                  <MotionDiv
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-100px' }}
@@ -230,7 +230,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
                     <h2 className="text-heading-lg font-bold text-foreground mb-6">Capturas</h2>
                     <div className="grid gap-4 md:grid-cols-2">
                       {project.images.map((image, i) => (
-                        <motion.div
+                        <MotionDiv
                           key={image}
                           className="relative aspect-video rounded-xl overflow-hidden bg-muted"
                           initial={{ opacity: 0, scale: 0.95 }}
@@ -244,14 +244,14 @@ export default function ProjectDetailPage({ params }: PageProps) {
                             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                             loading="lazy"
                           />
-                        </motion.div>
+                        </MotionDiv>
                       ))}
                     </div>
-                  </motion.div>
+                  </MotionDiv>
                 )}
 
                 {/* Challenges & Learnings */}
-                <motion.div
+                <MotionDiv
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-100px' }}
@@ -283,12 +283,12 @@ export default function ProjectDetailPage({ params }: PageProps) {
                       </ul>
                     </div>
                   </div>
-                </motion.div>
+                </MotionDiv>
               </div>
 
               {/* Sidebar */}
               <aside className="space-y-8">
-                <motion.div
+                <MotionDiv
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -384,7 +384,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
                       </button>
                     </div>
                   </div>
-                </motion.div>
+                </MotionDiv>
               </aside>
             </div>
           </div>
@@ -417,7 +417,7 @@ function RelatedProjects({ currentSlug }: { currentSlug: string }) {
   return (
     <div className="grid gap-6 md:grid-cols-3">
       {[1, 2, 3].map((i) => (
-        <motion.article
+        <MotionArticle
           key={i}
           className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/30 transition-all duration-300"
           whileHover={{ y: -8, boxShadow: '0 25px 50px -12px hsl(var(--primary) / 0.1)' }}
@@ -446,7 +446,7 @@ function RelatedProjects({ currentSlug }: { currentSlug: string }) {
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
             </Link>
           </div>
-        </motion.article>
+        </MotionArticle>
       ))}
     </div>
   );
