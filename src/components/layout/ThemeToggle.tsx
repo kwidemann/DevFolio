@@ -6,7 +6,7 @@ import { Sun, Moon, Monitor } from 'lucide-react';
 
 export function ThemeToggle() {
   const { theme = 'system', setTheme, resolvedTheme = 'light' } = useTheme();
-  const currentTheme = theme as 'light' | 'dark' | 'system';
+  const currentTheme = theme === 'system' ? (resolvedTheme as 'light' | 'dark') : theme;
 
   const icons = {
     light: <Sun className="h-5 w-5" />,
@@ -25,12 +25,12 @@ export function ThemeToggle() {
       <button
         onClick={() => {
           const themes = ['light', 'dark', 'system'] as const;
-          const currentIndex = themes.indexOf(currentTheme);
+          const currentIndex = themes.indexOf(theme as 'light' | 'dark' | 'system');
           setTheme(themes[(currentIndex + 1) % themes.length]);
         }}
-        className="btn-ghost relative h-10 w-10 rounded-lg"
-        aria-label={labels[currentTheme]}
-        title={labels[currentTheme]}
+        className="btn-ghost relative inline-flex items-center gap-2 h-10 rounded-lg px-3"
+        aria-label={labels[theme as 'light' | 'dark' | 'system']}
+        title={labels[theme as 'light' | 'dark' | 'system']}
         suppressHydrationWarning
       >
         <motion.div
@@ -38,8 +38,11 @@ export function ThemeToggle() {
           transition={{ duration: 0.3, ease: 'easeOut' }}
           className="flex h-full w-full items-center justify-center"
         >
-          {icons[currentTheme]}
+          {icons[theme as 'light' | 'dark' | 'system']}
         </motion.div>
+        <span className="text-sm font-medium">
+          {theme === 'dark' ? 'Dark' : theme === 'light' ? 'Light' : 'System'}
+        </span>
       </button>
 
       {/* Tooltip-like dropdown */}
