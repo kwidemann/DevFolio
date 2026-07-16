@@ -10,9 +10,9 @@ import { ShareButton } from '@/components/ShareButton';
 
 // MDX Components
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
+import rehypeShiki from '@/lib/rehype-shiki';
 
 const components = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -196,7 +196,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                       remarkPlugins: [remarkGfm],
                       rehypePlugins: [
                         rehypeSlug,
-                        [rehypePrettyCode, { theme: 'github-dark', keepBackground: true }],
+                        [rehypeShiki, { theme: 'github-dark', keepBackground: true }],
                       ],
                     },
                   }}

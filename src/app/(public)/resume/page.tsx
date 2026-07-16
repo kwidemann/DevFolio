@@ -3,9 +3,9 @@ import fs from 'fs/promises';
 import path from 'path';
 import { PublicLayout } from '@/components/layout/PublicLayout';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
+import rehypeShiki from '@/lib/rehype-shiki';
 
 const components = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -105,7 +105,7 @@ export default async function ResumePage() {
                 options={{
                   mdxOptions: {
                     remarkPlugins: [remarkGfm],
-                    rehypePlugins: [rehypeSlug, [rehypePrettyCode, { theme: 'github-dark', keepBackground: true }]],
+                    rehypePlugins: [rehypeSlug, [rehypeShiki, { theme: 'github-dark' }]],
                   },
                 }}
               />
