@@ -9,7 +9,7 @@ const stats = [
   { label: 'Proyectos completados', value: '15+', icon: Target },
   { label: 'Años de experiencia', value: '5+', icon: Zap },
   { label: 'Tecnologías dominadas', value: '20+', icon: Heart },
-  { label: 'Clientes satisfechos', value: '8+', icon: Users },
+  { label: 'Clientes satisfechos', value: '2 clientes satisfechos', icon: Users },
   { label: 'Artículos técnicos', value: '12+', icon: BookOpen },
   { label: 'Países trabajados', value: '4+', icon: Globe },
 ];
