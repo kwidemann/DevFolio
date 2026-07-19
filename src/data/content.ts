@@ -399,7 +399,7 @@ Perfila tus datos, conoce tus rangos, y elige el dtype mínimo necesario. Tu CPU
     cover_image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200',
     tags: ['Python', 'Pandas', 'NumPy', 'Performance', 'Data Engineering', 'Optimization'],
     published: true,
-    published_at: '2024-01-15T10:00:00.000Z',
+    published_at: '2026-01-15T10:00:00.000Z',
     reading_time: 12,
     sort_order: 1,
     created_at: '2024-01-01T00:00:00.000Z',
@@ -551,7 +551,7 @@ Al trabajar con modelos de ML/DL:
     cover_image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200',
     tags: ['IA Ética', 'Transparencia', 'Model Cards', 'Sesgos', 'Explicabilidad', 'Gobernanza de IA', 'Responsible AI'],
     published: true,
-    published_at: '2024-02-20T14:30:00.000Z',
+    published_at: '2026-02-20T14:30:00.000Z',
     reading_time: 15,
     sort_order: 2,
     created_at: '2024-01-01T00:00:00.000Z',
@@ -1040,89 +1040,411 @@ SQLAlchemy 2.0 + FastAPI = **async nativo, type-safe, y performante**.
     cover_image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200',
     tags: ['Python', 'SQLAlchemy', 'FastAPI', 'Async', 'Database', 'SQLAlchemy 2.0', 'Backend'],
     published: true,
-    published_at: '2024-03-10T09:00:00.000Z',
+    published_at: '2026-03-10T09:00:00.000Z',
     reading_time: 18,
     sort_order: 3,
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
   },
   {
+      {
+      {
+      {
+      {
     id: 4,
-    slug: 'sqlmodel-fastapi-async-patterns',
-    title: 'Patrones Async con SQLModel + FastAPI',
-    excerpt: 'Mejores prácticas para operaciones asíncronas con SQLModel y FastAPI.',
-    content: `# Patrones Async con SQLModel + FastAPI
+    slug: 'docker-proyectos-practico-despliegue',
+    title: 'Docker para Proyectos: Por Qué y Cómo Desplegar en Contenedores',
+    excerpt: 'La guía práctica para contenedorizar aplicaciones: consistencia entre entornos, Docker Compose, multi-stage builds, networking, volúmenes, CI/CD y patrones de producción.',
+    content: `# Docker para Proyectos: Por Qué y Cómo Desplegar en Contenedores
 
-## Configuración Base
+## El problema real: "En mi máquina funciona"
 
-\`\`\`python
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker
-from sqlmodel import SQLModel
+Cada desarrollador conoce la frustración:
+- Dependencias distintas entre dev/staging/prod
+- Versiones de runtime (Python, Node, Java) que divergen
+- Variables de entorno hardcodeadas
+- "Works on my machine" → falla en producción
 
-engine = create_async_engine(
-    "sqlite+aiosqlite:///./app.db",
-    echo=True,
-)
+**Docker resuelve esto empaquetando la aplicación + dependencias + configuración en una unidad inmutable: la imagen.**
 
-async_session = sessionmaker(
-    engine, class_=AsyncSession, expire_on_commit=False
-)
+---
 
-async def get_session() -> AsyncSession:
-    async with async_session() as session:
-        yield session
+## Por qué Docker para despliegue (no solo para dev)
+
+| Beneficio | Explicación práctica |
+|-----------|---------------------|
+| **Consistencia absoluta** | Misma imagen en laptop, CI, staging, prod. Zero drift. |
+| **Aislamiento de dependencias** | App A usa Python 3.11, App B usa 3.9 → sin conflictos en el mismo host. |
+| **Rollback instantáneo** | \`docker tag\` + \`docker run\` imagen anterior = rollback en segundos. |
+| **Escalado horizontal** | \`docker compose up --scale web=3\` o Kubernetes HPA. |
+| **Density** | 10-50 contenedores en un host vs 1-2 VMs. Menos costo cloud. |
+| **Inmutable** | No hay "config drift": la imagen ES el artefacto deployable. |
+| **Reproducibilidad** | \`docker build\` determinista = mismo hash = misma ejecución. |
+
+---
+
+## Flujo práctico: De código a producción
+
+### 1. Dockerfile multi-stage (estándar 2024)
+
+\`\`\`dockerfile
+# ---- Base: dependencias del sistema ----
+FROM python:3.11-slim AS base
+RUN apt-get update && apt-get install -y --no-install-recommends     gcc libpq-dev curl &&     rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+
+# ---- Deps: solo dependencias Python ----
+FROM base AS deps
+COPY requirements.txt requirements.lock.txt* ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+# ---- Builder: compile/build assets ----
+FROM deps AS builder
+COPY . .
+RUN python -m compileall .  # bytecode precompilado
+
+# ---- Runner: imagen final mínima ----
+FROM base AS runner
+COPY --from=builder /app /app
+COPY --from=deps /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+
+# Usuario no-root (seguridad)
+RUN useradd --create-home --shell /bin/bash app && chown -R app:app /app
+USER app
+
+EXPOSE 8000
+CMD ["gunicorn", "main:app", "--workers", "4", "--bind", "0.0.0.0:8000"]
 \`\`\`
 
-## Dependency Injection en FastAPI
+**Resultado típico**: 1.2 GB → **85 MB** (Python slim + multi-stage).
 
-\`\`\`python
-from fastapi import Depends
+---
 
-@app.get("/projects/")
-async def list_projects(
-    session: AsyncSession = Depends(get_session),
-    offset: int = 0,
-    limit: int = 10,
-):
-    result = await session.exec(
-        select(Project).offset(offset).limit(limit)
-    )
-    return result.all()
+### 2. Docker Compose: Dev + Staging + Prod con un archivo
+
+\`\`\`yaml
+# docker-compose.yml (base)
+services:
+  web:
+    build:
+      context: .
+      target: runner
+    ports: ["8000:8000"]
+    environment:
+      - DATABASE_URL=postgresql://user:pass@db:5432/app
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d app"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    secrets:
+      - db_password
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redisdata:/data
+
+volumes:
+  pgdata:
+  redisdata:
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
 \`\`\`
 
-## Transacciones Explícitas
-
-\`\`\`python
-async def transfer_funds(from_id: int, to_id: int, amount: float):
-    async with async_session() as session:
-        async with session.begin():
-            from_account = await session.get(Account, from_id)
-            to_account = await session.get(Account, to_id)
-            
-            if from_account.balance < amount:
-                raise InsufficientFunds()
-            
-            from_account.balance -= amount
-            to_account.balance += amount
-            
-            session.add(from_account)
-            session.add(to_account)
+\`\`\`yaml
+# docker-compose.prod.yml (override para prod)
+services:
+  web:
+    build:
+      target: runner
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+  db:
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    command: ["postgres", "-c", "max_connections=200"]
 \`\`\`
 
-## Conclusión
+**Uso:**
+\`\`\`bash
+# Dev local
+docker compose up -d
 
-Async SQLModel + FastAPI = código limpio, type-safe y performante. La clave: \`expire_on_commit=False\` y transacciones explícitas.`,
-    cover_image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200',
-    tags: ['Python', 'FastAPI', 'SQLModel', 'Async', 'Database'],
+# Staging (con variables de entorno)
+docker compose -f docker-compose.yml -f docker-compose.staging.yml up -d
+
+# Prod
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+\`\`\`
+
+---
+
+### 3. Variables de entorno y secretos: La forma correcta
+
+| Tipo | Dónde | Ejemplo |
+|------|-------|---------|
+| **Config no sensible** | \`.env\` (gitignored) o \`environment:\` en compose | \`LOG_LEVEL=info\` |
+| **Secrets (prod)** | Docker Secrets / Kubernetes Secrets / Vault | \`POSTGRES_PASSWORD_FILE=/run/secrets/db_pass\` |
+| **Build args** | \`ARG\` en Dockerfile, \`--build-arg\` en build | \`ARG PYTHON_VERSION=3.11\` |
+
+\`\`\`dockerfile
+# Build args para flexibilidad
+ARG PYTHON_VERSION=3.11
+FROM python:${PYTHON_VERSION}-slim AS base
+\`\`\`
+
+\`\`\`bash
+docker build --build-arg PYTHON_VERSION=3.12 -t miapp:latest .
+\`\`\`
+
+---
+
+### 4. Networking: Comunicación entre servicios
+
+\`\`\`yaml
+services:
+  web:
+    networks: [frontend, backend]
+  api:
+    networks: [backend]
+  db:
+    networks: [backend]
+
+networks:
+  frontend:  # expuesto a internet (reverse proxy)
+  backend:   # interno, sin salida externa
+\`\`\`
+
+- **Service discovery**: \`web\` habla con \`api\` via \`http://api:8000\` (DNS interno de Docker)
+- **Aislamiento**: \`db\` solo en red \`backend\` → no accesible desde fuera
+- **Reverse proxy**: Traefik/Nginx en red \`frontend\` termina TLS y enruta
+
+---
+
+### 5. Volúmenes: Persistencia y performance
+
+| Caso | Volumen | Config |
+|------|---------|--------|
+| **DB data** | Named volume | \`volumes: [pgdata:/var/lib/postgresql/data]\` |
+| **Archivos subidos** | Bind mount / Named volume | \`volumes: [uploads:/app/media]\` |
+| **Cache/Build** | Tmpfs (memoria) | \`tmpfs: /app/.cache\` |
+| **Logs** | json-file driver + rotation | \`logging: {driver: json-file, options: {max-size: 10m}}\` |
+
+\`\`\`yaml
+volumes:
+  pgdata:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/storage/postgres  # disco dedicado en prod
+\`\`\`
+
+---
+
+### 6. CI/CD: Build → Test → Push → Deploy
+
+\`\`\`yaml
+# .github/workflows/deploy.yml
+name: Deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t ghcr.io/user/app:${{ github.sha }} .
+      - name: Run tests in container
+        run: |
+          docker run --rm ghcr.io/user/app:${{ github.sha }} pytest
+      - name: Push to registry
+        run: |
+          echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          docker push ghcr.io/user/app:${{ github.sha }}
+
+  deploy-staging:
+    needs: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to staging
+        run: |
+          ssh staging "docker compose pull && docker compose up -d"
+
+  deploy-prod:
+    needs: deploy-staging
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to prod (blue-green)
+        run: |
+          ssh prod "./deploy.sh ghcr.io/user/app:${{ github.sha }}"
+\`\`\`
+
+**Patrón Blue-Green deploy script:**
+\`\`\`bash
+#!/bin/bash
+# deploy.sh
+NEW_IMAGE=$1
+CURRENT=$(docker compose ps -q web)
+
+docker compose pull $NEW_IMAGE
+docker tag $NEW_IMAGE miapp:new
+docker compose up -d --no-deps web  # healthcheck valida antes de switch
+sleep 10
+if curl -f http://localhost/health; then
+  docker tag $NEW_IMAGE miapp:current
+  echo "Deploy OK"
+else
+  docker compose up -d --no-deps web  # rollback automático
+  echo "Deploy FAILED, rolled back"
+  exit 1
+fi
+\`\`\`
+
+---
+
+### 7. Observabilidad en contenedores
+
+\`\`\`yaml
+services:
+  web:
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=web,env=prod"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: "512M"
+\`\`\`
+
+- **Logs**: stdout/stderr → Docker JSON driver → Loki/ELK/Datadog
+- **Métricas**: \`docker stats\` → Prometheus node-exporter + cAdvisor
+- **Tracing**: OpenTelemetry sidecar o lib en app
+- **Healthchecks**: \`HEALTHCHECK CMD curl -f http://localhost:8000/health || exit 1\`
+
+---
+
+### 8. Checklist de producción (copia y pega)
+
+\`\`\`markdown
+# Pre-deploy checklist
+- [ ] Multi-stage build (< 200MB final image)
+- [ ] Non-root USER en Dockerfile
+- [ ] HEALTHCHECK definido
+- [ ] No secrets en imagen (usar secrets/files/env)
+- [ ] Resource limits (CPU/RAM) en compose/k8s
+- [ ] Read-only root filesystem donde sea posible
+- [ ] Drop capabilities: \`cap_drop: [ALL]\` + \`cap_add: [NET_BIND_SERVICE]\` si puerto < 1024
+- [ ] Security scanning: \`docker scout cves miapp:latest\` o \`trivy image miapp\`
+- [ ] Healthchecks pasan en staging antes de prod
+- [ ] Rollback probado (tag anterior funciona)
+- [ ] Logs estructurados (JSON) a stdout
+- [ ] Backup/restore de volúmenes documentado y probado
+\`\`\`
+
+---
+
+## Patrones comunes por tipo de proyecto
+
+| Tipo | Base image | Compose profile | Escalado |
+|------|------------|-----------------|----------|
+| **API FastAPI/Flask** | python:3.11-slim | web + db + redis | Horizontal (stateless) |
+| **Worker/Celery** | python:3.11-slim | worker | Horizontal (cola) |
+| **Next.js/React** | node:20-alpine (standalone) | web | Horizontal + CDN |
+| **PostgreSQL** | postgres:16-alpine | db | Vertical + read replicas |
+| **Redis** | redis:7-alpine | cache | Cluster mode |
+| **Nginx/Traefik** | nginx:alpine / traefik:v3 | proxy | 1-2 réplicas |
+
+---
+
+## Errores comunes que evitas con Docker
+
+| Error | Sin Docker | Con Docker |
+|-------|------------|------------|
+| "Falta libpq-dev en prod" | Horas debug | En Dockerfile base |
+| "Python 3.10 vs 3.11" | Virtualenv roto | \`FROM python:3.11\` fijo |
+| "Migración BD falla" | Manual, riesgoso | \`alembic upgrade head\` en entrypoint |
+| "Config distinta staging/prod" | Archivos .env divergentes | Compose override + secrets |
+| "Deploy viernes 6pm" | Riesgo alto | Blue-green + healthcheck = seguro |
+| "Rollback 30 min" | Git revert + rebuild | \`docker tag old:latest\` = 30 seg |
+
+---
+
+## Conclusión: Docker no es opcional para proyectos serios
+
+| Antes de Docker | Con Docker |
+|-----------------|------------|
+| "Funciona en mi máquina" | "Funciona en cualquier máquina" |
+| Deploy manual, propenso a errores | Deploy automatizado, reproducible |
+| Escalado = nueva VM + config | \`docker compose up --scale web=3\` |
+| Rollback = horas | Rollback = segundos |
+| Dependencias en host = conflictos | Aislamiento total por contenedor |
+
+**La curva de aprendizaje vale la pena**: 1 día aprendiendo Docker = años de dolores de cabeza evitados.
+
+**Stack recomendado 2024**:
+- **Build**: Dockerfile multi-stage + BuildKit (\`DOCKER_BUILDKIT=1\`)
+- **Orquestación local**: Docker Compose v2
+- **Orquestación prod**: Kubernetes (EKS/GKE/AKS) o Docker Swarm / Nomad para simples
+- **Registry**: GHCR / Docker Hub / ECR / Harbor
+- **Seguridad**: Trivy/Docker Scout + cosign para signing
+- **Observabilidad**: Loki + Prometheus + Grafana + Tempo
+
+> **Regla de oro**: Si no puedes \`docker build && docker run\` y tener tu app funcionando en < 2 min, el Dockerfile necesita trabajo.`,
+    cover_image: 'https://images.unsplash.com/photo-1605745341112-85968b19335b?w=1200',
+    tags: ['Docker', 'DevOps', 'Deployment', 'Containers', 'Docker Compose', 'CI/CD', 'Production'],
     published: true,
-    published_at: '2024-04-05T16:45:00.000Z',
-    reading_time: 15,
+    published_at: '2026-04-05T16:45:00.000Z',
+    reading_time: 20,
     sort_order: 4,
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
-  },
-];
+  },];
 
 export function getProjects(params?: { featured?: boolean; category?: string }) {
   let items = projects;
