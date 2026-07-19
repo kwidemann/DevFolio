@@ -1004,7 +1004,7 @@ alembic upgrade head
 - name: Run migrations
   run: alembic upgrade head
   env:
-    DATABASE_URL: \${{ secrets.DATABASE_URL }}
+    DATABASE_URL: \\${{ secrets.DATABASE_URL }}
 \`\`\`
 
 ---
@@ -1290,14 +1290,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build image
-        run: docker build -t ghcr.io/user/app:${{ github.sha }} .
+        run: docker build -t ghcr.io/user/app:\${{ github.sha }} .
       - name: Run tests in container
         run: |
-          docker run --rm ghcr.io/user/app:${{ github.sha }} pytest
+          docker run --rm ghcr.io/user/app:\${{ github.sha }} pytest
       - name: Push to registry
         run: |
-          echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          docker push ghcr.io/user/app:${{ github.sha }}
+          echo \${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u \${{ github.actor }} --password-stdin
+          docker push ghcr.io/user/app:\${{ github.sha }}
 
   deploy-staging:
     needs: build-test
@@ -1314,7 +1314,7 @@ jobs:
     steps:
       - name: Deploy to prod (blue-green)
         run: |
-          ssh prod "./deploy.sh ghcr.io/user/app:${{ github.sha }}"
+          ssh prod "./deploy.sh ghcr.io/user/app:\${{ github.sha }}"
 \`\`\`
 
 **Patrón Blue-Green deploy script:**
