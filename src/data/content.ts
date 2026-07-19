@@ -1004,7 +1004,7 @@ alembic upgrade head
 - name: Run migrations
   run: alembic upgrade head
   env:
-    DATABASE_URL: \\${{ secrets.DATABASE_URL }}
+    DATABASE_URL: \${{ secrets.DATABASE_URL }}
 \`\`\`
 
 ---
@@ -1222,7 +1222,7 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 \`\`\`dockerfile
 # Build args para flexibilidad
 ARG PYTHON_VERSION=3.11
-FROM python:${PYTHON_VERSION}-slim AS base
+FROM python:\${PYTHON_VERSION}-slim AS base
 \`\`\`
 
 \`\`\`bash
