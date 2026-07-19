@@ -1047,10 +1047,6 @@ SQLAlchemy 2.0 + FastAPI = **async nativo, type-safe, y performante**.
     updated_at: '2024-01-01T00:00:00.000Z',
   },
   {
-      {
-      {
-      {
-      {
     id: 4,
     slug: 'docker-proyectos-practico-despliegue',
     title: 'Docker para Proyectos: Por Qué y Cómo Desplegar en Contenedores',
