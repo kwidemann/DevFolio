@@ -405,164 +405,647 @@ Perfila tus datos, conoce tus rangos, y elige el dtype mínimo necesario. Tu CPU
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
   },
-id: 2,
-    slug: 'react-server-components-deep-dive',
-    title: 'React Server Components: Deep Dive Práctico',
-    excerpt: 'Entendiendo RSC desde los fundamentos: streaming, suspense y patrones de data fetching en Next.js 14.',
-    content: `# React Server Components: Deep Dive Práctico
+  {
+    id: 2,
+    slug: 'transparencia-model-cards-ia-etica',
+    title: 'Transparencia en IA: Model Cards, Opacidad y Herramientas Éticas',
+    excerpt: 'Por qué la transparencia es requisito central en ML/DL, cómo documentar modelos con Model Cards, niveles de opacidad y herramientas para explicabilidad, medición de impacto y detección de sesgos.',
+    content: `# Transparencia en IA: Model Cards, Opacidad y Herramientas Éticas
 
-## El cambio de paradigma
+## Introducción: más allá del desempeño predictivo
 
-RSC no es solo "renderizado en servidor". Es una **nueva primitiva de composición** que cambia cómo pensamos la arquitectura de aplicaciones React.
+En el desarrollo de sistemas de inteligencia artificial, el foco a menudo se coloca en métricas de desempeño: accuracy, F1, AUC. Pero cuando un modelo influye en decisiones que afectan a personas —créditos, salud, políticas públicas— el desempeño predictivo **no es suficiente**. La transparencia y la rendición de cuentas se vuelven requisitos centrales.
 
-\`\`\`tsx
-// Server Component (por defecto en App Router)
-async function ProjectList() {
-  const projects = await fetchProjects() // Direct DB access!
-  return <ul>{projects.map(p => <ProjectCard key={p.id} {...p} />)}</ul>
-}
-\`\`\`
+Esta guía cubre:
+- Por qué la transparencia es fundamental en ML/DL
+- Model Cards: documentación estructurada de modelos
+- Niveles de opacidad y sus implicancias
+- Herramientas para explicabilidad, medición de impacto y detección de sesgos
 
-## Streaming & Suspense
+---
 
-\`\`\`tsx
-// layout.tsx
-export default function Layout({ children }) {
-  return (
-    <Suspense fallback={<ProjectListSkeleton />}>
-      {children}
-    </Suspense>
-  )
-}
-\`\`\`
+## Transparencia y opacidad en modelos de IA
 
-El HTML se streamea progresivamente. El usuario ve contenido antes de que todo termine.
+La **transparencia** es la capacidad de un sistema para que sus acciones, decisiones y resultados sean claros, visibles y comprensibles para quienes se ven afectados y otras partes interesadas.
 
-## Data Fetching Patterns
+Conecta directamente con el *pipeline de machine learning*: no basta con entrenar un modelo que optimiza una métrica; también es necesario poder explicar:
+- Qué hace el modelo
+- Con qué datos se entrenó
+- En qué condiciones funciona bien
+- Cuándo podría fallar
 
-### Parallel (Promise.all)
+La **opacidad** aparece cuando este entendimiento se pierde. Los sistemas de IA suelen percibirse como "cajas negras". Sin prácticas de transparencia, no se pueden cuestionar decisiones automatizadas ni identificar sesgos o errores.
 
-\`\`\`tsx
-const [projects, skills, profile] = await Promise.all([
-  fetchProjects(),
-  fetchSkills(),
-  fetchProfile(),
-])
-\`\`\`
+### Dos dimensiones complementarias
 
-### Sequential (waterfall intencional)
+| Dimensión | Enfoque |
+|-----------|---------|
+| **Transparencia en organizaciones** | Cómo las instituciones informan sobre objetivos, procesos, responsables, supervisión, políticas de datos, protocolos de validación, canales de reclamo y participación de grupos afectados |
+| **Transparencia en sistemas de IA** | Documentación y explicabilidad de modelos: datos, variables influyentes, métricas, monitoreo de riesgos y sesgos en el tiempo |
 
-\`\`\`tsx
-const profile = await fetchProfile()
-const projects = await fetchProjects(profile.id) // depende de profile
-\`\`\`
+---
 
-## Server Actions
+## Model Cards: documentación estructurada de modelos
 
-\`\`\`tsx
-'use server'
-export async function createProject(formData: FormData) {
-  const data = validateProject(formData)
-  await db.project.create({ data })
-  revalidatePath('/projects')
-}
-\`\`\`
+Las **Model Cards** son documentos que describen un modelo de aprendizaje automático, incluyendo entrenamiento, rendimiento, usos previstos y limitaciones. Su objetivo: ofrecer a personas técnicas y no técnicas un resumen claro de qué puede y no puede hacer el modelo.
 
-## Conclusión
+### ¿Por qué Model Cards?
 
-RSC + Next.js 14 = Full stack React real. Menos JavaScript en cliente, mejor SEO, mejor rendimiento, DX superior.`,
-    cover_image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200',
-    tags: ['React', 'Next.js', 'RSC', 'Architecture'],
+No existen procedimientos de documentación estandarizados para muchos modelos de ML/DL. Esto dificulta:
+- Comprender sesgos sistemáticos
+- Reproducir resultados
+- Evaluar si un modelo es adecuado para un nuevo contexto
+
+Las Model Cards acompañan al modelo desde su diseño hasta su despliegue, incluyendo métricas de sesgo y equidad además de desempeño tradicional.
+
+### Estructura de una Model Card
+
+#### 1. **Vista general**
+Información básica: organización, fecha, versión, tipo de modelo (árbol de decisión, red neuronal), enlaces a recursos adicionales.
+
+#### 2. **Detalles del modelo**
+Arquitectura, algoritmos, hiperparámetros relevantes, librerías/frameworks, decisiones de diseño, evaluación y documentación.
+
+#### 3. **Uso previsto**
+Principales usos y usuarios primarios. **Usos fuera del alcance**: aplicaciones en las que el modelo **no debe utilizarse** porque no fue entrenado ni validado para ellas.
+
+#### 4. **Factores**
+Factores contextuales: grupos poblacionales, instrumentos, entornos de uso (ej. región específica, tipo de dispositivo de captura).
+
+#### 5. **Métricas**
+Medidas de rendimiento: accuracy, F1, AUC, MAE, etc. Umbrales de decisión y enfoques para manejar incertidumbre y variabilidad.
+
+#### 6. **Datos**
+Bases de entrenamiento/evaluación, motivación para elegirlas, criterios de inclusión/exclusión, preprocesamiento y anonimización.
+
+#### 7. **Análisis cuantitativo**
+Métricas desagregadas por grupo y análisis interseccionales. Objetivo: detectar funcionamiento desigual entre subgrupos poblacionales.
+
+#### 8. **Consideraciones éticas**
+Datos sensibles, impacto en vida humana, riesgos y daños, medidas de mitigación. Límites de uso en dominios críticos.
+
+#### 9. **Advertencias y recomendaciones**
+Pruebas pendientes, grupos no representados en los datos, características deseables de futuras bases de evaluación.
+
+---
+
+## Niveles de opacidad y explicabilidad
+
+Incluso con Model Cards, no todos los modelos pueden explicarse igual. El nivel de opacidad afecta directamente la calidad de información que se puede entregar.
+
+| Tipo de opacidad | Descripción | Estrategia de mitigación |
+|------------------|-------------|---------------------------|
+| **Opacidad general** | Mayor complejidad = menor capacidad de transparentar cómo se combinan variables. Relaciones causales difíciles de establecer. | Técnicas de explicabilidad local/global, revisión humana en decisiones de alto impacto |
+| **Opacidad intencional** | Organización oculta detalles para proteger efectividad o propiedad intelectual (ej. detección de evasión fiscal). | Transparencia en usos previstos, métricas y gobernanza (no lógica completa) |
+| **Opacidad analfabeta** | Modelo podría explicarse, pero usuarios/funcionarios carecen de formación técnica. | Capacitación, materiales en lenguaje claro y accesible |
+| **Opacidad intrínseca** | Incluso el equipo técnico tiene dificultades (redes profundas a gran escala). | Técnicas de explicabilidad (SHAP, LIME), revisión humana, Model Cards como mínimo |
+
+> **Objetivo práctico**: No es eliminar toda opacidad (a veces imposible), sino **identificar qué tipo está presente, reducirla cuando sea viable y diseñar salvaguardas apropiadas**.
+
+---
+
+## Herramientas complementarias para ética y equidad en IA
+
+Las Model Cards se insertan en un ecosistema más amplio:
+
+### Transparencia y explicabilidad
+
+| Herramienta | Propósito |
+|-------------|-----------|
+| **Model Cards** | Documentan qué hace el modelo, datos de entrenamiento, métricas, condiciones de uso apropiado |
+| **What-If Tool** | Exploración interactiva: rendimiento en situaciones hipotéticas, importancia de características, comportamiento por subgrupos |
+
+### Medición de impacto
+
+| Herramienta | Propósito |
+|-------------|-----------|
+| **Algorithm Impact Assessment** | Marco para identificar nivel de impacto según área de aplicación, riesgos y mitigaciones. Se usa *antes del despliegue* para decidir: usar tal cual, ajustar, o no implementar. |
+
+### Identificación y mitigación de sesgos
+
+| Herramienta | Propósito |
+|-------------|-----------|
+| **Aequitas** | Audita sesgos calculando métricas de equidad y señalando disparidades entre grupos |
+| **AI Fairness 360** (IBM) | Detecta sesgos en modelos/datasets + ofrece técnicas de mitigación (reponderación, ajustes en funciones de pérdida) |
+| **Fairlearn** (Microsoft) | Similar a AI Fairness 360: detección + mitigación de sesgos |
+
+---
+
+## Síntesis y referencias clave
+
+Al trabajar con modelos de ML/DL:
+
+1. **La transparencia es un requisito central** — no opcional cuando hay impacto en personas
+2. **Model Cards** estandarizan la documentación: propósito, datos, métricas, usos, limitaciones
+3. **Identifica el tipo de opacidad** (general, intencional, analfabeta, intrínseca) y aplica mitigaciones
+4. **Usa herramientas complementarias**: What-If Tool para exploración, Algorithm Impact Assessment para decisión de despliegue, Aequitas/AI Fairness 360/Fairlearn para auditoría y mitigación de sesgos
+
+### Referencias fundamentales
+
+- **Mitchell et al. (2019)** — *Model Cards for Model Reporting* (FAT 2019)
+- **Gebru et al. (2021)** — *Datasheets for Datasets* (CACM)
+- **Bellamy et al. (2019)** — *AI Fairness 360* (IBM J. Res. Dev.)
+- **Burrell (2016)** — *How the machine thinks?: Understanding opacity in ML* (Big Data & Society)
+- **NIST (2023)** — *AI Risk Management Framework (AI RMF 1.0)*
+- **UNESCO (2021)** — *Recomendación sobre la ética de la inteligencia artificial`,
+    cover_image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200',
+    tags: ['IA Ética', 'Transparencia', 'Model Cards', 'Sesgos', 'Explicabilidad', 'Gobernanza de IA', 'Responsible AI'],
     published: true,
     published_at: '2024-02-20T14:30:00.000Z',
-    reading_time: 12,
+    reading_time: 15,
     sort_order: 2,
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
-  },
-  {
+  },  {
     id: 3,
-    slug: 'docker-multi-stage-builds',
-    title: 'Docker Multi-stage Builds: Imágenes 10x Más Pequeñas',
-    excerpt: 'Técnicas avanzadas de multi-stage builds, cache layers, distroless y security hardening.',
-    content: `# Docker Multi-stage Builds: Imágenes 10x Más Pequeñas
+    slug: 'sqlalchemy-2-fastapi-async-patterns',
+    title: 'SQLAlchemy 2.0 + FastAPI: Patrones Async Modernos',
+    excerpt: 'La nueva API async de SQLAlchemy 2.0 con FastAPI: AsyncSession, async_sessionmaker, expire_on_commit=False, dependency injection, transacciones explícitas, patrones de repositorio y testing con rollback automático.',
+    content: `# SQLAlchemy 2.0 + FastAPI: Patrones Async Modernos
 
-## El problema
+## Por qué SQLAlchemy 2.0 cambia el juego
 
-Una imagen Node.js típica: **1.2 GB**. La misma app optimizada: **45 MB**.
+SQLAlchemy 2.0 (lanzado 2023) introduce una **API unificada y tipada** para async/await, eliminando la ambigüedad de la 1.x. La nueva interfaz \`AsyncSession\`, \`async_sessionmaker\` y \`create_async_engine\` son now *first-class citizens*, no wrappers sobre código sync.
 
-## Patrón multi-stage
-
-\`\`\`dockerfile
-# Base stage - dependencias
-FROM node:20-alpine AS deps
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-
-# Builder - compile/build
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-RUN npm run build
-
-# Runner - producción mínima
-FROM node:20-alpine AS runner
-WORKDIR /app
-ENV NODE_ENV=production
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-USER node
-EXPOSE 3000
-CMD ["node", "server.js"]
+\`\`\`python
+# requirements.txt
+sqlalchemy>=2.0
+fastapi>=0.109
+asyncpg>=0.29  # o aiosqlite para dev
+pydantic>=2.5
 \`\`\`
 
-## Distroless
+---
 
-\`\`\`dockerfile
-FROM gcr.io/distroless/nodejs20-debian12
-COPY --from=builder /app /app
-WORKDIR /app
-USER nonroot
-CMD ["server.js"]
+## Configuración Base: Engine + Session Factory
+
+\`\`\`python
+# database.py
+from sqlalchemy.ext.asyncio import (
+    create_async_engine,
+    AsyncSession,
+    async_sessionmaker,
+    AsyncEngine,
+)
+from sqlalchemy.pool import NullPool
+from sqlmodel import SQLModel  # o declarative_base() puro
+from contextlib import asynccontextmanager
+from typing import AsyncGenerator
+import os
+
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql+asyncpg://user:pass@localhost:5432/dbname"
+)
+
+# Engine: pool_pre_ping evita conexiones rotas; NullPool para serverless
+engine: AsyncEngine = create_async_engine(
+    DATABASE_URL,
+    echo=os.getenv("SQL_ECHO", "false").lower() == "true",
+    pool_pre_ping=True,
+    pool_size=10,
+    max_overflow=20,
+    # poolclass=NullPool,  # descomentar para AWS Lambda / Cloud Run
+)
+
+# Session factory: expire_on_commit=False evita SELECT extra tras commit
+async_session_maker = async_sessionmaker(
+    engine,
+    class_=AsyncSession,
+    expire_on_commit=False,
+    autoflush=False,  # control manual de flush
+)
+
+
+async def get_session() -> AsyncGenerator[AsyncSession, None]:
+    """Dependency para FastAPI: una sesión por request."""
+    async with async_session_maker() as session:
+        try:
+            yield session
+            await session.commit()
+        except Exception:
+            await session.rollback()
+            raise
+        finally:
+            await session.close()
+
+
+# Lifespan para crear/cerrar engine (FastAPI 0.109+)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: crear tablas si no existen (solo dev)
+    if os.getenv("ENV") == "development":
+        async with engine.begin() as conn:
+            await conn.run_sync(SQLModel.metadata.create_all)
+    yield
+    # Shutdown
+    await engine.dispose()
 \`\`\`
 
-## Cache Optimization
+---
 
-- Ordena COPY de menos a más frecuente
-- \`package*.json\` antes que código fuente
-- Usa \`--mount=type=cache\` para npm/yarn/pnpm cache
+## Dependency Injection en FastAPI
 
-## Security Hardening
+\`\`\`python
+# main.py
+from fastapi import FastAPI, Depends, HTTPException, Query
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
+sqlalchemy import select
+from typing import Annotated
+from models import Project, ProjectCreate, ProjectRead
+from database import get_session, lifespan
 
-- Non-root user (USER node / USER 1000)
-- Read-only filesystem (--read-only)
-- Drop capabilities (--cap-drop=ALL)
-- No shell (distroless / scratch)
+app = FastAPI(title="Projects API", lifespan=lifespan)
 
-## Resultados
+SessionDep = Annotated[AsyncSession, Depends(get_session)]
 
-| Stage | Size |
-|-------|------|
-| node:20 | 1.2 GB |
-| node:20-alpine | 180 MB |
-| Multi-stage alpine | 65 MB |
-| Distroless | 45 MB |
 
-45 MB = despliegues más rápidos, menos superficie de ataque, menos costo de transferencia.`,
-    cover_image: 'https://images.unsplash.com/photo-1605745341112-85968b19335b?w=1200',
-    tags: ['Docker', 'DevOps', 'Optimization', 'Security'],
+@app.post("/projects/", response_model=ProjectRead, status_code=201)
+async def create_project(
+    project_in: ProjectCreate,
+    session: SessionDep,
+):
+    project = Project.model_validate(project_in)
+    session.add(project)
+    await session.flush()  # obtiene ID sin commit
+    await session.refresh(project)
+    return project
+
+
+@app.get("/projects/", response_model=list[ProjectRead])
+async def list_projects(
+    session: SessionDep,
+    offset: int = Query(0, ge=0),
+    limit: int = Query(20, ge=1, le=100),
+):
+    result = await session.exec(
+        select(Project).offset(offset).limit(limit)
+    )
+    return result.all()
+
+
+@app.get("/projects/{project_id}", response_model=ProjectRead)
+async def get_project(project_id: int, session: SessionDep):
+    project = await session.get(Project, project_id)
+    if not project:
+        raise HTTPException(404, "Project not found")
+    return project
+\`\`\`
+
+---
+
+## Transacciones Explícitas: El Patrón Correcto
+
+\`\`\`python
+# services/project_service.py
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.exc import IntegrityError
+from models import Project, Task
+from schemas import ProjectCreate, TaskCreate
+
+
+class ProjectService:
+    def __init__(self, session: AsyncSession):
+        self.session = session
+
+    async def create_with_tasks(
+        self, project_in: ProjectCreate, tasks_in: list[TaskCreate]
+    ) -> Project:
+        """
+        Crea proyecto + tareas en una sola transacción atómica.
+        Si falla cualquier parte, todo se revierte.
+        """
+        project = Project.model_validate(project_in)
+        self.session.add(project)
+        await self.session.flush()  # project.id disponible
+
+        tasks = [
+            Task(**task.model_dump(), project_id=project.id)
+            for task in tasks_in
+        ]
+        self.session.add_all(tasks)
+
+        # NO hacemos commit aquí; el dependency get_session() lo hace
+        # o usamos session.begin() para transacción anidada (savepoint)
+        return project
+
+    async def transfer_ownership(
+        self, project_id: int, new_owner_id: int
+    ) -> Project:
+        """Transacción explícita con savepoint para lógica compleja."""
+        async with self.session.begin():  # transacción explícita
+            project = await self.session.get(Project, project_id)
+            if not project:
+                raise ValueError("Project not found")
+
+            # Lógica de negocio: validaciones, eventos, etc.
+            project.owner_id = new_owner_id
+            project.updated_at = datetime.utcnow()
+
+            # Flush forzado para detectar constraints early
+            await self.session.flush()
+
+            # Si algo falla aquí, rollback automático
+            return project
+\`\`\`
+
+**Regla de oro**: Usa \`async with session.begin()\` cuando la operación es *una unidad de trabajo atómica* (múltiples writes, validaciones cross-entity). El dependency \`get_session()\` ya maneja commit/rollback por request.
+
+---
+
+## Patrones de Repositorio (Opcional pero Escalable)
+
+\`\`\`python
+# repositories/base.py
+from abc import ABC, abstractmethod
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
+from typing import Generic, TypeVar, Sequence
+from sqlmodel import SQLModel
+
+T = TypeVar("T", bound=SQLModel)
+
+
+class BaseRepository(Generic[T], ABC):
+    def __init__(self, session: AsyncSession, model: type[T]):
+        self.session = session
+        self.model = model
+
+    async def get(self, id: int) -> T | None:
+        return await self.session.get(self.model, id)
+
+    async def get_all(
+        self, offset: int = 0, limit: int = 100
+    ) -> Sequence[T]:
+        result = await self.session.exec(
+            select(self.model).offset(offset).limit(limit)
+        )
+        return result.all()
+
+    async def create(self, obj: T) -> T:
+        self.session.add(obj)
+        await self.session.flush()
+        await self.session.refresh(obj)
+        return obj
+
+    async def delete(self, obj: T) -> None:
+        await self.session.delete(obj)
+        await self.session.flush()
+
+
+# repositories/project_repo.py
+from repositories.base import BaseRepository
+from models import Project
+
+
+class ProjectRepository(BaseRepository[Project]):
+    def __init__(self, session: AsyncSession):
+        super().__init__(session, Project)
+
+    async def get_by_owner(self, owner_id: int) -> Sequence[Project]:
+        result = await self.session.exec(
+            select(Project).where(Project.owner_id == owner_id)
+        )
+        return result.all()
+\`\`\`
+
+---
+
+## Relaciones y Carga Eficiente (Evitar N+1)
+
+\`\`\`python
+# models.py
+from sqlmodel import SQLModel, Field, Relationship
+from typing import Optional, List
+from datetime import datetime
+
+
+class Project(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str = Field(max_length=255)
+    owner_id: int = Field(foreign_key="user.id")
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+    # Relación: selectinload evita N+1
+    tasks: List["Task"] = Relationship(back_populates="project")
+
+
+class Task(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    title: str
+    project_id: Optional[int] = Field(default=None, foreign_key="project.id")
+    completed: bool = False
+
+    project: Optional[Project] = Relationship(back_populates="tasks")
+\`\`\`
+
+\`\`\`python
+# Carga eager con selectinload (ideal para colecciones)
+from sqlalchemy.orm import selectinload
+
+@app.get("/projects/{project_id}/with-tasks", response_model=ProjectWithTasks)
+async def get_project_with_tasks(project_id: int, session: SessionDep):
+    from sqlalchemy import select
+    from sqlalchemy.orm import selectinload
+
+    result = await session.exec(
+        select(Project)
+        .where(Project.id == project_id)
+        .options(selectinload(Project.tasks))
+    )
+    project = result.first()
+    if not project:
+        raise HTTPException(404, "Project not found")
+    return project
+\`\`\`
+
+| Estrategia | Cuándo usar | SQL generado |
+|------------|-------------|--------------|
+| \`selectinload\` | Colecciones (1-N, M-N) | 2 queries: parent + WHERE IN (ids) |
+| \`joinedload\` | Relaciones 1-1, 1-N (pocos hijos) | 1 query con JOIN |
+| \`lazyload\` (default) | Solo si accedes SIEMPRE | N+1 queries (¡evitar!) |
+
+---
+
+## Testing: Rollback Automático por Test
+
+\`\`\`python
+# conftest.py
+import pytest
+import pytest_asyncio
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.pool import StaticPool
+from sqlmodel import SQLModel
+from database import get_session
+from main import app
+from httpx import AsyncClient
+
+
+@pytest_asyncio.fixture(scope="function")
+async def test_engine():
+    """Engine en memoria para tests - rápido y aislado."""
+    engine = create_async_engine(
+        "sqlite+aiosqlite:///:memory:",
+        connect_args={"check_same_thread": False},
+        poolclass=StaticPool,
+    )
+    async with engine.begin() as conn:
+        await conn.run_sync(SQLModel.metadata.create_all)
+    yield engine
+    await engine.dispose()
+
+
+@pytest_asyncio.fixture(scope="function")
+async def session(test_engine):
+    """Sesión con rollback automático al final del test."""
+    async with AsyncSession(test_engine, expire_on_commit=False) as session:
+        yield session
+        await session.rollback()  # ¡Limpia todo!
+
+
+@pytest_asyncio.fixture(scope="function")
+async def client(session):
+    """Cliente HTTP con override de dependency."""
+    def override_get_session():
+        yield session
+
+    app.dependency_overrides[get_session] = override_get_session
+    async with AsyncClient(app=app, base_url="http://test") as ac:
+        yield ac
+    app.dependency_overrides.clear()
+
+
+# tests/test_projects.py
+import pytest
+from models import Project
+
+
+@pytest.mark.asyncio
+async def test_create_project(client):
+    response = await client.post(
+        "/projects/", json={"name": "Test Project", "owner_id": 1}
+    )
+    assert response.status_code == 201
+    data = response.json()
+    assert data["name"] == "Test Project"
+    assert "id" in data
+
+
+@pytest.mark.asyncio
+async def test_list_projects(client):
+    # Crear 3 proyectos
+    for i in range(3):
+        await client.post("/projects/", json={"name": f"Project {i}", "owner_id": 1})
+
+    response = await client.get("/projects/")
+    assert response.status_code == 200
+    assert len(response.json()) == 3
+\`\`\`
+
+**Ventaja clave**: Cada test corre en su propia transacción que se hace *rollback* al final. **No necesitas limpiar la BD manualmente** — es instantáneo y aislado.
+
+---
+
+## Migraciones con Alembic (Async)
+
+\`\`\`ini
+# alembic.ini
+[alembic]
+script_location = migrations
+sqlalchemy.url = postgresql+asyncpg://user:pass@localhost/dbname
+# ...
+\`\`\`
+
+\`\`\`python
+# migrations/env.py
+import asyncio
+from alembic import context
+from sqlalchemy.ext.asyncio import create_async_engine
+from models import SQLModel
+
+config = context.config
+target_metadata = SQLModel.metadata
+
+
+def run_migrations_offline():
+    context.configure(url=config.get_main_option("sqlalchemy.url"), target_metadata=target_metadata)
+    with context.begin_transaction():
+        context.run_migrations()
+
+
+def do_run_migrations(connection):
+    context.configure(connection=connection, target_metadata=target_metadata)
+    with context.begin_transaction():
+        context.run_migrations()
+
+
+async def run_migrations_online():
+    connectable = create_async_engine(config.get_main_option("sqlalchemy.url"))
+    async with connectable.connect() as connection:
+        await connection.run_sync(do_run_migrations)
+    await connectable.dispose()
+
+
+if context.is_offline_mode():
+    run_migrations_offline()
+else:
+    asyncio.run(run_migrations_online())
+\`\`\`
+
+\`\`\`bash
+# Generar migración
+alembic revision --autogenerate -m "create projects table"
+
+# Aplicar
+alembic upgrade head
+
+# En CI/CD (GitHub Actions)
+- name: Run migrations
+  run: alembic upgrade head
+  env:
+    DATABASE_URL: ${{ secrets.DATABASE_URL }}
+\`\`\`
+
+---
+
+## Checklist de Producción
+
+| ✅ | Práctica |
+|---|----------|
+| **Pool sizing** | \`pool_size=10, max_overflow=20\` ajustado a CPU cores |
+| **Pre-ping** | \`pool_pre_ping=True\` evita conexiones muertas |
+| **Timeouts** | \`connect_args={"command_timeout": 30}\` en engine |
+| **Read replicas** | Segundo engine \`create_async_engine(READ_REPLICA_URL)\` para GET |
+| **Prepared statements** | SQLAlchemy 2.0 los usa por defecto en asyncpg |
+| **Health check** | Endpoint \`GET /health\` que hace \`SELECT 1\` |
+| **Observabilidad** | \`echo=True\` en dev; \`sqlalchemy.engine\` logging en prod |
+
+---
+
+## Conclusión
+
+SQLAlchemy 2.0 + FastAPI = **async nativo, type-safe, y performante**.
+
+| Clave | Por qué importa |
+|-------|-----------------|
+| \`AsyncSession\` + \`async_sessionmaker\` | API unificada, sin \`sync_session\` wrappers |
+| \`expire_on_commit=False\` | Evita SELECTs fantasmas tras commit |
+| \`async with session.begin()\` | Transacciones atómicas explícitas |
+| \`selectinload\` / \`joinedload\` | Elimina N+1 en relaciones |
+| Test con rollback | Tests rápidos, aislados, sin cleanup manual |
+| Alembic async | Migraciones versionadas en CI/CD |
+
+**Stack recomendado 2024**: FastAPI 0.109+ + SQLAlchemy 2.0 + asyncpg + Pydantic 2 + Alembic + pytest-asyncio.`,
+    cover_image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200',
+    tags: ['Python', 'SQLAlchemy', 'FastAPI', 'Async', 'Database', 'SQLAlchemy 2.0', 'Backend'],
     published: true,
     published_at: '2024-03-10T09:00:00.000Z',
-    reading_time: 10,
+    reading_time: 18,
     sort_order: 3,
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
-  },
-  {
-    id: 4,
+  },id: 4,
     slug: 'sqlmodel-fastapi-async-patterns',
     title: 'Patrones Async con SQLModel + FastAPI',
     excerpt: 'Mejores prácticas para operaciones asíncronas con SQLModel y FastAPI.',
