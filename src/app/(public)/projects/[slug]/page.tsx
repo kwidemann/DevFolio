@@ -258,30 +258,41 @@ export default function ProjectDetailPage({ params }: PageProps) {
                   transition={{ duration: 0.6, delay: 0.3 }}
                 >
                   <div className="grid md:grid-cols-2 gap-6">
-                    <div className="p-6 rounded-2xl bg-card border border-border">
-                      <h3 className="text-heading-sm font-semibold text-foreground mb-4 flex items-center gap-2">
-                        <Code2 className="h-5 w-5 text-primary" aria-hidden="true" />
-                        Retos técnicos
-                      </h3>
-                      <ul className="space-y-3 text-muted-foreground">
-                        <li className="flex items-start gap-2">✓ Arquitectura multi-tenant con aislamiento de datos (RLS)</li>
-                        <li className="flex items-start gap-2">✓ Sincronización en tiempo real con CRDTs (Yjs)</li>
-                        <li className="flex items-start gap-2">✓ Optimización de consultas N+1 con DataLoader</li>
-                        <li className="flex items-start gap-2">✓ Migración zero-downtime de base de datos</li>
-                      </ul>
-                    </div>
-                    <div className="p-6 rounded-2xl bg-card border border-border">
-                      <h3 className="text-heading-sm font-semibold text-foreground mb-4 flex items-center gap-2">
-                        <TrendingUp className="h-5 w-5 text-green-500" aria-hidden="true" />
-                        Aprendizajes clave
-                      </h3>
-                      <ul className="space-y-3 text-muted-foreground">
-                        <li className="flex items-start gap-2">✓ TypeScript strict mode previene clases enteras de bugs</li>
-                        <li className="flex items-start gap-2">✓ Server Components reducen bundle JS en 40%</li>
-                        <li className="flex items-start gap-2">✓ Observabilidad temprana ahorra horas de debugging</li>
-                        <li className="flex items-start gap-2">✓ DX invierte en productividad del equipo a largo plazo</li>
-                      </ul>
-                    </div>
+                    {project.challenges && project.challenges.length > 0 && (
+                      <div className="p-6 rounded-2xl bg-card border border-border">
+                        <h3 className="text-heading-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                          <Code2 className="h-5 w-5 text-primary" aria-hidden="true" />
+                          Retos técnicos
+                        </h3>
+                        <ul className="space-y-3 text-muted-foreground">
+                          {project.challenges.map((challenge, index) => (
+                            <li key={index} className="flex items-start gap-2">
+                              ✓ {challenge}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {project.learnings && project.learnings.length > 0 && (
+                      <div className="p-6 rounded-2xl bg-card border border-border">
+                        <h3 className="text-heading-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                          <TrendingUp className="h-5 w-5 text-green-500" aria-hidden="true" />
+                          Aprendizajes clave
+                        </h3>
+                        <ul className="space-y-3 text-muted-foreground">
+                          {project.learnings.map((learning, index) => (
+                            <li key={index} className="flex items-start gap-2">
+                              ✓ {learning}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {(!project.challenges || project.challenges.length === 0) && (!project.learnings || project.learnings.length === 0) && (
+                      <div className="md:col-span-2 p-6 rounded-2xl bg-card border border-border text-center text-muted-foreground">
+                        <p>Próximamente: retos técnicos y aprendizajes de este proyecto.</p>
+                      </div>
+                    )}
                   </div>
                 </MotionDiv>
               </div>

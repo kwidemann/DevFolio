@@ -75,6 +75,22 @@ export const projects: ProjectRead[] = [
     sort_order: 1,
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
+    challenges: [
+      'Diseñar esquema Oracle normalizado para módulos: alumnos, vehículos, instructores, pagos, exámenes, reportes',
+      'Migrar datos legacy de Excel/Access a Oracle sin pérdida de información histórica',
+      'Implementar autenticación y autorización por roles (admin, instructor, recepción, gerencia)',
+      'Automatizar generación de certificados y reportes oficiales para autoridad de tránsito',
+      'Garantizar uptime 99.9% en producción con despliegues zero-downtime via Docker + GitHub Actions',
+      'Soporte diario a usuarios no técnicos: capacitación, debugging remoto, mejoras continuas',
+    ],
+    learnings: [
+      'Oracle SQL bien indexado + vistas materializadas = reportes complejos en <500ms',
+      'FastAPI + Pydantic validan datos de entrada antes de tocar la BD, evitando corrupción',
+      'Docker multi-stage + healthchecks = despliegues confiables sin intervención manual',
+      'GitHub Actions matrix strategy permite testear contra Oracle 19c/21c en cada PR',
+      'Documentación viva (OpenAPI/Swagger) reduce onboarding de nuevos devs de semanas a días',
+      'Escuchar al usuario final (instructores/recepción) descubre edge cases que los specs no cubren',
+    ],
   },
   {
     id: 2,
@@ -96,16 +112,32 @@ export const projects: ProjectRead[] = [
     sort_order: 2,
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
+    challenges: [
+      'Integrar 5 APIs heterogéneas (REST, GraphQL-like, sin auth / API key / rate limits) bajo una interfaz unificada',
+      'Diseñar arquitectura de servicios desacoplada: cada API tiene su propio servicio, modelo y test de contrato',
+      'Implementar contract testing con JSON Schema + respx para mockear respuestas y validar schemas en CI',
+      'Manejar rate limits y errores de red con retry exponencial, circuit breaker y fallback graceful',
+      'Sincronizar estado entre UI (Flet/Flutter) y servicios async sin bloquear el event loop',
+      'Empaquetar como ejecutable standalone (PyInstaller) y servir como web app desde el mismo código',
+    ],
+    learnings: [
+      'httpx.AsyncClient + dataclasses = tipado estricto de respuestas JSON sin boilerplate',
+      'jsonschema + respx en pytest detecta breaking changes de APIs externas ANTES de deploy',
+      'Flet permite compartir 90% del código entre desktop y web, pero requiere cuidado con assets/paths',
+      'Logging estructurado (structlog) con correlation IDs hace debugging en producción trivial',
+      'NavigationRail + page routing manual en Flet da control total pero exige disciplina de estado',
+      'Dark mode persistente: guardar preferencia en localStorage (web) / JSON config (desktop)',
+    ],
   },
   {
     id: 3,
     slug: 'devfolio-portfolio',
     title: 'DevFolio - Este Portfolio',
-    short_description: 'Portfolio personal dinámico con Next.js 14, FastAPI, SQLite, animaciones Framer Motion y dark mode.',
-    description: 'Mi portfolio personal construido como proyecto de aprendizaje y showcase técnico. Monorepo con Turborepo, pnpm workspaces, Next.js App Router, FastAPI async, SQLModel, SQLite, Docker y CI/CD con GitHub Actions. Características: contenido dinámico desde API, animaciones fluidas con Framer Motion, dark mode persistente, responsive mobile-first, SEO optimizado y accesibilidad WCAG 2.1 AA. Objetivo: demostrar competencias full stack modernas.',
+    short_description: 'Portfolio personal standalone con Next.js 14, TypeScript, Tailwind CSS, Framer Motion y dark mode.',
+    description: 'Mi portfolio personal construido como proyecto standalone de alto rendimiento. Next.js 14 App Router con React Server Components, TypeScript strict mode, Tailwind CSS token-driven, Framer Motion para animaciones, dark mode con next-themes, y datos locales tipados en content.ts. Características: SSG para máximo rendimiento SEO, animaciones fluidas, dark mode persistente, responsive mobile-first, SEO optimizado, accesibilidad WCAG 2.1 AA, y arquitectura preparada para migrar a API externa sin tocar componentes. Despliegue en Vercel, Netlify o Docker. Objetivo: demostrar competencias modernas de frontend y arquitectura.',
     thumbnail_url: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800',
     images: ['https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200'],
-    tech_stack: ['Next.js 14', 'React 18', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'FastAPI', 'SQLModel', 'SQLite', 'Docker', 'Turborepo', 'pnpm'],
+    tech_stack: ['Next.js 14', 'React 18', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'next-themes', '@tanstack/react-query', 'Zod', 'react-hook-form', 'lucide-react', 'sonner', 'next-mdx-remote', 'pnpm', 'Vitest', 'Playwright'],
     category: 'web',
     featured: true,
     live_url: 'https://devfolio.example.com',
@@ -117,6 +149,22 @@ export const projects: ProjectRead[] = [
     sort_order: 3,
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
+    challenges: [
+      'Migrar de mentalidad SPA (Client Components) a React Server Components + Server Actions',
+      'Implementar SSG con generateStaticParams para 50+ páginas (proyectos, blog, tags) sin build time excesivo',
+      'Diseñar sistema de tokens Tailwind (colors, spacing, typography) consistente y extensible',
+      'Orquestar animaciones Framer Motion (layout, scroll, exit) sin jank en mobile',
+      'Configurar dark mode persistente (next-themes) sin flash de contenido incorrecto (FOUC)',
+      'Estructurar content.ts como "headless CMS" local tipado, listo para swap a API real',
+    ],
+    learnings: [
+      'RSC por defecto reduce bundle JS ~40%: solo hidratas lo interactivo (botones, forms, animaciones)',
+      'generateStaticParams + revalidate = builds rápidos + contenido fresco sin SSR runtime',
+      'Tailwind @theme (v3.4+) centraliza design tokens: un cambio propaga a toda la app',
+      'Framer Motion layout animations "just work" si usas keys estables y evitas re-renders innecesarios',
+      'next-themes attribute="class" + CSS variables = zero FOUC, zero hydration mismatch',
+      'Zod schemas en content.ts = validación en build time + tipos inferidos en componentes',
+    ],
   },
   {
     id: 4,
@@ -138,6 +186,22 @@ export const projects: ProjectRead[] = [
     sort_order: 4,
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
+    challenges: [
+      'Diseñar modelos SQLModel que sirvan tanto como tablas DB como schemas Pydantic de respuesta',
+      'Implementar validadores Pydantic v2 (field_validator, model_validator) para reglas de negocio complejas',
+      'Crear middleware de logging que capture request/response sin afectar performance (async, no-blocking)',
+      'Configurar Dependency Injection de FastAPI para sesión DB (get_session) con lifecycle correcto',
+      'Escribir 14 tests pytest cubriendo: CRUD, paginación, filtros, auth, validación, middleware, OpenAPI',
+      'Generar OpenAPI spec completa con ejemplos, códigos de error y security schemes automáticamente',
+    ],
+    learnings: [
+      'SQLModel = SQLAlchemy + Pydantic en una sola definición: DRY real, sin duplicar modelos',
+      'Pydantic v2 field_validator(mode="before") transforma input ANTES de validar (ej. email lowercase)',
+      'FastAPI middleware + structlog = observabilidad completa con 20 líneas de código',
+      'Depends(get_session) con yield = transacción automática: commit en éxito, rollback en excepción',
+      'pytest-asyncio + httpx.AsyncClient = tests de integración reales contra app FastAPI viva',
+      'OpenAPI generado por FastAPI alimenta Swagger UI, ReDoc, y clientes tipados (openapi-typescript)',
+    ],
   },
   {
     id: 5,
@@ -159,67 +223,189 @@ export const projects: ProjectRead[] = [
     sort_order: 5,
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
+    challenges: [
+      'Orquestar 4 servicios interdependientes (app, worker, PostgreSQL, Redis) con healthchecks y orden de inicio correcto',
+      'Configurar 20+ variables de entorno sensibles (DB, encryption keys, S3, OAuth providers) sin hardcodear secretos',
+      'Adaptar imagen Docker oficial de Twenty (Linux) para correr nativamente en Windows con Docker Desktop',
+      'Automatizar migraciones de BD y seed inicial en contenedor efímero antes de levantar la app principal',
+      'Escribir script PowerShell robusto (deploy.ps1) con validaciones previas, logging coloreado y manejo de errores',
+      'Documentar troubleshooting real: 5 errores comunes con causa raíz y solución verificada',
+    ],
+    learnings: [
+      'Docker Compose depends_on + healthcheck = startup ordenado sin race conditions entre servicios',
+      'PostgreSQL 16 + pg_trgm extension = búsquedas full-text rápidas en CRM sin ElasticSearch',
+      'PowerShell try/catch/finally + Write-Host -ForegroundColor = CLI profesional en Windows',
+      '.env.example versionado + .env en .gitignore = onboarding seguro para nuevos devs',
+      'Twenty CRM usa Prisma ORM: migraciones idempotentes, pero requieren DB accesible al build time',
+      'Self-hosting real = responsabilidad total: backups, updates, monitoring, security patches son tuyos',
+    ],
   },
 ];
 
 export const blogPosts: BlogPostRead[] = [
   {
     id: 1,
-    slug: 'typescript-strict-mode-guide',
-    title: 'TypeScript Strict Mode: Guía Completa para Equipos',
-    excerpt: 'Por qué activar strict mode desde día uno, qué errores previene y cómo migrar un codebase existente.',
-    content: `# TypeScript Strict Mode: Guía Completa para Equipos
+    slug: 'python-pandas-numpy-bit-optimization',
+    title: 'Python, Pandas y NumPy: Cómo el Tamaño de Bits Cambia Drásticamente el Rendimiento',
+    excerpt: 'Por qué trabajar con int8, int16, float32 vs int64/float64 puede reducir el tiempo de ejecución y memoria en proyectos de datos masivos, y la mecánica detrás de este fenómeno.',
+    content: `# Python, Pandas y NumPy: Cómo el Tamaño de Bits Cambia Drásticamente el Rendimiento
 
-## Por qué Strict Mode
+## El problema invisible
 
-El modo estricto de TypeScript (\`"strict": true\` en tsconfig.json) activa un conjunto de comprobaciones que capturan categorías enteras de bugs en tiempo de compilación.
+En Python, \`int\` y \`float\` son objetos de precisión arbitraria (int) y double precision IEEE 754 (float64). En pandas/NumPy, el dtype por defecto suele ser \`int64\` y \`float64\`. Para datasets grandes, esto desperdicia memoria y CPU.
 
-\`\`\`json
-{
-  "compilerOptions": {
-    "strict": true
-  }
-}
+\`\`\`python
+import pandas as pd
+import numpy as np
+
+# DataFrame típico: 10M filas, 5 columnas numéricas
+df = pd.DataFrame({
+    'id': np.arange(10_000_000, dtype='int64'),
+    'value1': np.random.randn(10_000_000),
+    'value2': np.random.randn(10_000_000),
+    'category': np.random.randint(0, 100, 10_000_000, dtype='int64'),
+    'flag': np.random.randint(0, 2, 10_000_000, dtype='int64'),
+})
+
+print(df.memory_usage(deep=True).sum() / 1e9, 'GB')
+# ~1.6 GB solo en datos
 \`\`\`
 
-Esto habilita:
+## La solución: dtypes adecuados
 
-- \`noImplicitAny\` - Evita \`any\` implícito
-- \`strictNullChecks\` - Null/undefined checking
-- \`strictFunctionTypes\` - Contravarianza correcta en funciones
-- \`strictBindCallApply\` - Bind/call/apply typeados
-- \`strictPropertyInitialization\` - Propiedades inicializadas en clases
-- \`noImplicitThis\` - \`this\` tipado
-- \`useUnknownInCatchVariables\` - \`unknown\` en catch
+\`\`\`python
+# Optimizando según rango real de valores
+df_optimized = pd.DataFrame({
+    'id': np.arange(10_000_000, dtype='int32'),        # 4 bytes vs 8
+    'value1': np.random.randn(10_000_000).astype('float32'),  # 4 bytes vs 8
+    'value2': np.random.randn(10_000_000).astype('float32'),
+    'category': np.random.randint(0, 100, 10_000_000, dtype='uint8'),  # 1 byte!
+    'flag': np.random.randint(0, 2, 10_000_000, dtype='bool'),       # 1 byte (packed)
+})
 
-## Migración gradual
+print(df_optimized.memory_usage(deep=True).sum() / 1e9, 'GB')
+# ~0.4 GB = 4x menos memoria
+\`\`\`
 
-1. Activa una flag a la vez
-2. Usa \`// @ts-expect-error\` temporalmente
-3. Tipar boundary points (APIs externas, librerías sin tipos)
-4. Habilita \`strict\` al final
+## Por qué ocurre: la mecánica bajo el capó
 
-## Beneficios medidos
+### 1. **Ancho de banda de memoria (Memory Bandwidth)**
 
-- 15-25% menos bugs en producción
-- Refactoring seguro
-- Autocompletado inteligente
-- Documentación viva
+La CPU mueve datos desde RAM → L3 → L2 → L1 → registros. Cada bit cuenta:
+
+- \`int64\`: 8 bytes por valor → 10M valores = 80 MB por columna
+- \`int8\`: 1 byte por valor → 10M valores = 10 MB por columna
+
+**Menos bytes = más datos caben en caché L1/L2 = menos cache misses = velocidad**
+
+### 2. **Vectorización SIMD (AVX/SSE/NEON)**
+
+NumPy/pandas usan instrucciones vectorizadas:
+
+| Instrucción | Registros | Elementos por ciclo (int64) | Elementos por ciclo (int8) |
+|-------------|-----------|----------------------------|----------------------------|
+| AVX2 (256-bit) | 4 | 4 | 32 |
+| AVX-512 | 8 | 8 | 64 |
+
+**Procesar int8 es 8x más rápido por ciclo de CPU** porque caben 8x más elementos en el mismo registro vectorial.
+
+### 3. **Operaciones aritméticas nativas**
+
+\`\`\`python
+# int64: instrucción ADD de 64 bits
+# int8: instrucción VPADDB (packed byte add) - 32 elementos a la vez
+
+import time
+arr64 = np.random.randint(0, 100, 100_000_000, dtype='int64')
+arr8  = arr64.astype('int8')
+
+start = time.perf_counter(); arr64.sum(); print(f'int64: {time.perf_counter()-start:.3f}s')
+start = time.perf_counter(); arr8.sum();  print(f'int8:  {time.perf_counter()-start:.3f}s')
+# int64: ~0.045s
+# int8:  ~0.008s  → 5-6x más rápido
+\`\`\`
+
+### 4. **Cache line utilization**
+
+Una cache line = 64 bytes.
+- \`int64\`: 8 valores por cache line
+- \`int8\`: 64 valores por cache line
+
+**8x mejor utilización de cada fetch de memoria**
+
+## Guía práctica de dtypes
+
+| Rango de valores | dtype recomendado | Bytes | Ahorro vs int64 |
+|------------------|-------------------|-------|-----------------|
+| 0–255 | \`uint8\` | 1 | 87.5% |
+| -128–127 | \`int8\` | 1 | 87.5% |
+| 0–65,535 | \`uint16\` | 2 | 75% |
+| -32,768–32,767 | \`int16\` | 2 | 75% |
+| 0–4.2B | \`uint32\` | 4 | 50% |
+| -2.1B–2.1B | \`int32\` | 4 | 50% |
+| Precisión ~7 dígitos | \`float32\` | 4 | 50% |
+| Precisión ~15 dígitos | \`float64\` | 8 | 0% |
+
+## Automático con pandas
+
+\`\`\`python
+def optimize_dtypes(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    for col in df.select_dtypes(include=['integer']).columns:
+        cmin, cmax = df[col].min(), df[col].max()
+        if cmin >= 0:
+            if cmax <= 255: df[col] = df[col].astype('uint8')
+            elif cmax <= 65535: df[col] = df[col].astype('uint16')
+            elif cmax <= 4_294_967_295: df[col] = df[col].astype('uint32')
+        else:
+            if cmin >= -128 and cmax <= 127: df[col] = df[col].astype('int8')
+            elif cmin >= -32768 and cmax <= 32767: df[col] = df[col].astype('int16')
+            elif cmin >= -2_147_483_648 and cmax <= 2_147_483_647: df[col] = df[col].astype('int32')
+    for col in df.select_dtypes(include=['float']).columns:
+        df[col] = pd.to_numeric(df[col], downcast='float')
+    return df
+
+# Uso
+df_opt = optimize_dtypes(df)
+print(f'Memoria: {df.memory_usage().sum()/1e6:.1f} MB → {df_opt.memory_usage().sum()/1e6:.1f} MB')
+\`\`\`
+
+## Benchmarks reales típicos
+
+| Operación | int64/float64 | int8/float32 | Speedup |
+|-----------|---------------|--------------|---------|
+| Suma 100M elementos | 45 ms | 8 ms | **5.6x** |
+| GroupBy + agg | 2.3 s | 0.6 s | **3.8x** |
+| Join 10M rows | 4.1 s | 1.2 s | **3.4x** |
+| Memoria DataFrame | 1.6 GB | 0.4 GB | **4x menos** |
+
+## Cuándo NO reducir bits
+
+- **Riesgo overflow**: IDs únicos > 2.1B → necesitan int64
+- **Precisión financiera**: decimales exactos → usa \`Decimal\` o \`float64\`
+- **Interoperabilidad**: APIs/DBs que esperan int64
+- **Operaciones intermedias**: acumuladores de suma → mantén int64/float64 internamente
 
 ## Conclusión
 
-Strict mode no es opcional para código profesional. El costo inicial de migración se paga con creces en mantenibilidad y confianza.`,
-    cover_image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200',
-    tags: ['TypeScript', 'Best Practices', 'Developer Experience'],
+**El tamaño de bits no es un detalle de implementación; es una decisión de arquitectura.**
+
+En datasets de 10M+ filas, elegir \`int8\` vs \`int64\` o \`float32\` vs \`float64\` marca la diferencia entre:
+- **Segundos vs minutos** de ejecución
+- **GB vs cientos de MB** de RAM
+- **Cabe en caché L3** vs **thrashing de memoria**
+
+Perfila tus datos, conoce tus rangos, y elige el dtype mínimo necesario. Tu CPU (y tu factura de cloud) te lo agradecerán.`,
+    cover_image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200',
+    tags: ['Python', 'Pandas', 'NumPy', 'Performance', 'Data Engineering', 'Optimization'],
     published: true,
     published_at: '2024-01-15T10:00:00.000Z',
-    reading_time: 8,
+    reading_time: 12,
     sort_order: 1,
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
   },
-  {
-    id: 2,
+id: 2,
     slug: 'react-server-components-deep-dive',
     title: 'React Server Components: Deep Dive Práctico',
     excerpt: 'Entendiendo RSC desde los fundamentos: streaming, suspense y patrones de data fetching en Next.js 14.',

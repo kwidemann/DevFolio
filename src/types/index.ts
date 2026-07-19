@@ -18,6 +18,8 @@ export interface ProjectRead {
   sort_order: number;
   created_at: string;
   updated_at: string;
+  challenges?: string[];
+  learnings?: string[];
 }
 
 export interface ProjectListRead {
