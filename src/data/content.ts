@@ -1004,7 +1004,7 @@ alembic upgrade head
 - name: Run migrations
   run: alembic upgrade head
   env:
-    DATABASE_URL: ${{ secrets.DATABASE_URL }}
+    DATABASE_URL: \${{ secrets.DATABASE_URL }}
 \`\`\`
 
 ---
