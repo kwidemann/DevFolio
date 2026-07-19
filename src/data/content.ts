@@ -1045,7 +1045,9 @@ SQLAlchemy 2.0 + FastAPI = **async nativo, type-safe, y performante**.
     sort_order: 3,
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
-  },id: 4,
+  },
+  {
+    id: 4,
     slug: 'sqlmodel-fastapi-async-patterns',
     title: 'Patrones Async con SQLModel + FastAPI',
     excerpt: 'Mejores prácticas para operaciones asíncronas con SQLModel y FastAPI.',
