@@ -258,7 +258,7 @@ export const blogPosts: BlogPostRead[] = [
 
 ## El problema invisible
 
-En Python, \`int\` y \`float\` son objetos de precisión arbitraria (int) y double precision IEEE 754 (float64). En pandas/NumPy, el dtype por defecto suele ser \`int64\` y \`float64\`. Para datasets grandes, esto desperdicia memoria y CPU.
+Para ilustrar el problema, comencemos con un ejemplo práctico. El siguiente código crea una tabla de datos (un DataFrame) con 10 millones de filas, utilizando los tipos de datos que \`pandas\` y \`numpy\` asignan por defecto. Al medir la memoria que consume, veremos que incluso datos numéricos aparentemente simples pueden ocupar una cantidad sorprendentemente grande de espacio, sentando las bases para entender por qué la optimización es tan importante.
 
 \`\`\`python
 import pandas as pd
@@ -278,6 +278,8 @@ print(df.memory_usage(deep=True).sum() / 1e9, 'GB')
 \`\`\`
 
 ## La solución: dtypes adecuados
+
+La solución a este consumo excesivo de memoria es ser más específicos con el tipo de datos que usamos. Si sabemos que una columna solo contendrá números pequeños, podemos usar un formato más compacto. El siguiente código crea la misma tabla de datos, pero esta vez especificando tipos de datos optimizados (como \`int32\` o \`uint8\`) que se ajustan al rango real de los valores. La drástica reducción en el uso de memoria hablará por sí misma.
 
 \`\`\`python
 # Optimizando según rango real de valores
@@ -317,6 +319,8 @@ NumPy/pandas usan instrucciones vectorizadas:
 
 ### 3. **Operaciones aritméticas nativas**
 
+Además del ahorro de memoria, usar tipos de datos más pequeños acelera los cálculos. Los procesadores modernos pueden realizar operaciones matemáticas en múltiples números pequeños simultáneamente, una técnica llamada "vectorización". El siguiente código mide el tiempo que toma sumar una gran cantidad de números usando el formato grande por defecto (\`int64\`) frente al formato pequeño (\`int8\`), demostrando en la práctica cómo una simple optimización puede multiplicar la velocidad de nuestros análisis.
+
 \`\`\`python
 # int64: instrucción ADD de 64 bits
 # int8: instrucción VPADDB (packed byte add) - 32 elementos a la vez
@@ -353,6 +357,8 @@ Una cache line = 64 bytes.
 | Precisión ~15 dígitos | \`float64\` | 8 | 0% |
 
 ## Automático con pandas
+
+Revisar manualmente cada columna para encontrar el tipo de dato óptimo puede ser tedioso. Afortunadamente, podemos automatizar este proceso. El siguiente código define una función que analiza cada columna numérica de una tabla de datos, comprueba el valor mínimo y máximo que contiene, y le asigna automáticamente el tipo de dato más eficiente posible. Esta función se convierte en una herramienta reutilizable para optimizar cualquier conjunto de datos con una sola línea de código.
 
 \`\`\`python
 def optimize_dtypes(df: pd.DataFrame) -> pd.DataFrame:
@@ -1111,6 +1117,8 @@ Cada desarrollador conoce la frustración:
 
 ### 1. Dockerfile multi-stage (estándar 2024)
 
+Este Dockerfile muestra cómo separar la instalación del sistema, las dependencias de Python y la fase de ejecución final en etapas independientes. Es una plantilla práctica para producir una imagen ligera, reproducible y segura, ideal para proyectos que deben ejecutarse igual en desarrollo y producción.
+
 \`\`\`dockerfile
 # ---- Base: dependencias del sistema ----
 FROM python:3.11-slim AS base
@@ -1146,6 +1154,8 @@ CMD ["gunicorn", "main:app", "--workers", "4", "--bind", "0.0.0.0:8000"]
 ---
 
 ### 2. Docker Compose: Dev + Staging + Prod con un archivo
+
+El Compose permite definir servicios, redes y volúmenes en un solo lugar, conservando la misma arquitectura para entornos locales y de despliegue. Aquí vemos cómo orquestar la aplicación web junto a la base de datos y la cache, con un override específico para producción.
 
 \`\`\`yaml
 # docker-compose.yml (base)
@@ -1200,6 +1210,8 @@ secrets:
     file: ./secrets/db_password.txt
 \`\`\`
 
+Este override de producción demuestra cómo separar la configuración de despliegue del archivo base. Con esto mantenemos el mismo application model y aplicamos sólo los cambios necesarios para escalar, logging y políticas de reinicio.
+
 \`\`\`yaml
 # docker-compose.prod.yml (override para prod)
 services:
@@ -1224,6 +1236,8 @@ services:
           memory: 1G
     command: ["postgres", "-c", "max_connections=200"]
 \`\`\`
+
+Antes de ejecutar los comandos de arranque, es importante entender que estamos usando el mismo archivo base con overrides para cada entorno. Esto asegura que el despliegue en staging y producción sea predecible y reproducible.
 
 **Uso:**
 \`\`\`bash

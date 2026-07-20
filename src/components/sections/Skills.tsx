@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useSkills, useSkillCategories } from '@/hooks/useApi';
 import { cn } from '@/lib/utils';
+import { Icon } from '@/components/Icon';
 import { Star, TrendingUp, Target, Code2, Server, Database, Cpu, Wrench, Users } from 'lucide-react';
 
 const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
