@@ -44,7 +44,7 @@ export const skills: SkillRead[] = [
   { id: 17, name: 'GitHub', category: 'tools', proficiency: 5, icon: 'github', sort_order: 17, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
   { id: 18, name: 'VS Code', category: 'tools', proficiency: 5, icon: 'code', sort_order: 18, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
   { id: 19, name: 'Google Workspace Administration', category: 'tools', proficiency: 4, icon: 'globe', sort_order: 19, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
-  { id: 20, name: 'Flet', category: 'tools', proficiency: 3, icon: 'layout', sort_order: 20, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
+  { id: 20, name: 'Flet', category: 'frontend', proficiency: 3, icon: 'layout', sort_order: 20, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
   { id: 21, name: 'VBA', category: 'tools', proficiency: 3, icon: 'file-text', sort_order: 21, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
   { id: 22, name: 'C# (Basic)', category: 'tools', proficiency: 3, icon: 'file-code', sort_order: 22, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
   { id: 23, name: 'GitHub Copilot', category: 'tools', proficiency: 4, icon: 'robot', sort_order: 23, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
@@ -53,6 +53,9 @@ export const skills: SkillRead[] = [
   { id: 26, name: 'Comunicación con stakeholders', category: 'soft', proficiency: 4, icon: 'message-square', sort_order: 26, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
   { id: 27, name: 'Documentación y soporte', category: 'soft', proficiency: 4, icon: 'book-open', sort_order: 27, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
   { id: 28, name: 'TypeScript', category: 'frontend', proficiency: 3, icon: 'file-code', sort_order: 28, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
+  { id: 29, name: 'Next.js 14', category: 'frontend', proficiency: 3, icon: 'code', sort_order: 29, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
+  { id: 30, name: 'React 18', category: 'frontend', proficiency: 3, icon: 'code', sort_order: 30, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
+  { id: 31, name: 'Tailwind CSS', category: 'frontend', proficiency: 3, icon: 'code', sort_order: 31, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
 ];
 
 export const projects: ProjectRead[] = [
@@ -249,7 +252,9 @@ export const blogPosts: BlogPostRead[] = [
     slug: 'python-pandas-numpy-bit-optimization',
     title: 'Python, Pandas y NumPy: Cómo el Tamaño de Bits Cambia Drásticamente el Rendimiento',
     excerpt: 'Por qué trabajar con int8, int16, float32 vs int64/float64 puede reducir el tiempo de ejecución y memoria en proyectos de datos masivos, y la mecánica detrás de este fenómeno.',
-    content: `# Python, Pandas y NumPy: Cómo el Tamaño de Bits Cambia Drásticamente el Rendimiento
+    content: `Cuando trabajamos con grandes volúmenes de datos, como millones de registros en una tabla, la forma en que almacenamos los números puede tener un impacto enorme en la velocidad y el consumo de memoria de nuestros programas. A menudo, las herramientas de programación utilizan por defecto un formato de número muy grande y preciso, lo que es seguro pero ineficiente si nuestros datos no lo necesitan. Este artículo explora cómo elegir un "tamaño" de número más ajustado a nuestros datos reales —un concepto conocido como optimización de tipos de datos o tamaño de bits— puede hacer que nuestros análisis sean drásticamente más rápidos y consuman una fracción de la memoria, explicando de manera sencilla por qué ocurre este fenómeno.
+
+# Python, Pandas y NumPy: Cómo el Tamaño de Bits Cambia Drásticamente el Rendimiento
 
 ## El problema invisible
 
@@ -411,7 +416,9 @@ Perfila tus datos, conoce tus rangos, y elige el dtype mínimo necesario. Tu CPU
     slug: 'transparencia-model-cards-ia-etica',
     title: 'Transparencia en IA: Model Cards, Opacidad y Herramientas Éticas',
     excerpt: 'Por qué la transparencia es requisito central en ML/DL, cómo documentar modelos con Model Cards, niveles de opacidad y herramientas para explicabilidad, medición de impacto y detección de sesgos.',
-    content: `# Transparencia en IA: Model Cards, Opacidad y Herramientas Éticas
+    content: `A medida que los sistemas de inteligencia artificial toman decisiones cada vez más importantes en áreas como finanzas, salud o justicia, no basta con que sean precisos; también deben ser transparentes y justos. Un modelo que funciona como una "caja negra" impenetrable genera desconfianza y puede ocultar sesgos peligrosos. Este artículo explora por qué la transparencia es un pilar fundamental en la IA ética y presenta herramientas prácticas como las "Model Cards", que actúan como una ficha técnica para entender qué hace un modelo, cómo fue entrenado y cuáles son sus limitaciones, garantizando un uso más responsable de la tecnología.
+
+# Transparencia en IA: Model Cards, Opacidad y Herramientas Éticas
 
 ## Introducción: más allá del desempeño predictivo
 
@@ -562,11 +569,15 @@ Al trabajar con modelos de ML/DL:
     slug: 'sqlalchemy-2-fastapi-async-patterns',
     title: 'SQLAlchemy 2.0 + FastAPI: Patrones Async Modernos',
     excerpt: 'La nueva API async de SQLAlchemy 2.0 con FastAPI: AsyncSession, async_sessionmaker, expire_on_commit=False, dependency injection, transacciones explícitas, patrones de repositorio y testing con rollback automático.',
-    content: `# SQLAlchemy 2.0 + FastAPI: Patrones Async Modernos
+    content: `En el desarrollo de aplicaciones web modernas, la velocidad es clave. Las tecnologías asíncronas permiten que un servidor maneje miles de peticiones simultáneamente sin bloquearse, mejorando drásticamente la experiencia del usuario. Sin embargo, conectar estas aplicaciones rápidas a bases de datos tradicionales de forma eficiente ha sido históricamente un desafío. Este artículo explora los patrones más modernos para integrar SQLAlchemy, una potente herramienta de base de datos en Python, con FastAPI, un popular framework web, utilizando un enfoque completamente asíncrono que garantiza un rendimiento excepcional y un código limpio y robusto.
+
+# SQLAlchemy 2.0 + FastAPI: Patrones Async Modernos
 
 ## Por qué SQLAlchemy 2.0 cambia el juego
 
 SQLAlchemy 2.0 (lanzado 2023) introduce una **API unificada y tipada** para async/await, eliminando la ambigüedad de la 1.x. La nueva interfaz \`AsyncSession\`, \`async_sessionmaker\` y \`create_async_engine\` son now *first-class citizens*, no wrappers sobre código sync.
+
+Antes de sumergirnos en el código, es crucial preparar nuestro entorno de desarrollo. El siguiente listado detalla las librerías de Python y las versiones mínimas requeridas para construir nuestra aplicación. Estas dependencias son la base sobre la cual implementaremos los patrones asíncronos, asegurando compatibilidad y acceso a las funcionalidades más recientes.
 
 \`\`\`python
 # requirements.txt
@@ -579,6 +590,8 @@ pydantic>=2.5
 ---
 
 ## Configuración Base: Engine + Session Factory
+
+El corazón de la conexión entre nuestra aplicación y la base de datos reside en dos componentes clave: el "Engine" (motor) y la "Session" (sesión). El siguiente código configura el motor, que gestiona las conexiones de bajo nivel, y crea una "fábrica de sesiones" que nos proporcionará sesiones de base de datos temporales para cada petición. Una configuración correcta aquí es vital para la eficiencia y la resiliencia de la aplicación.
 
 \`\`\`python
 # database.py
@@ -647,6 +660,8 @@ async def lifespan(app: FastAPI):
 
 ## Dependency Injection en FastAPI
 
+Una vez configurada la base de datos, necesitamos una forma elegante de acceder a ella desde nuestros endpoints (las URLs de nuestra API). FastAPI utiliza un potente patrón llamado "Inyección de Dependencias" para gestionar esto. El código a continuación muestra cómo definir una dependencia que proporciona una sesión de base de datos a cada endpoint que la necesite, manejando automáticamente la apertura y cierre de conexiones. Esto mantiene nuestro código limpio y organizado.
+
 \`\`\`python
 # main.py
 from fastapi import FastAPI, Depends, HTTPException, Query
@@ -697,6 +712,8 @@ async def get_project(project_id: int, session: SessionDep):
 ---
 
 ## Transacciones Explícitas: El Patrón Correcto
+
+No todas las operaciones de base de datos son simples. A veces, necesitamos realizar varias acciones que deben tener éxito o fracasar como una sola unidad (una "transacción"). Por ejemplo, crear un pedido y actualizar el stock al mismo tiempo. Este código demuestra cómo manejar estas operaciones complejas de forma segura, asegurando que si algo sale mal a mitad de camino, la base de datos vuelva a su estado original sin dejar datos inconsistentes.
 
 \`\`\`python
 # services/project_service.py
@@ -757,6 +774,8 @@ class ProjectService:
 
 ## Patrones de Repositorio (Opcional pero Escalable)
 
+A medida que una aplicación crece, es una buena práctica separar la lógica de negocio de los detalles de acceso a la base de datos. El "Patrón de Repositorio" nos ayuda a lograrlo, creando una capa de abstracción que centraliza todas las consultas a la base de datos. El siguiente código muestra cómo implementar un repositorio base genérico y luego extenderlo para un modelo específico, haciendo que nuestro código sea más fácil de mantener, testear y escalar a largo plazo.
+
 \`\`\`python
 # repositories/base.py
 from abc import ABC, abstractmethod
@@ -815,6 +834,8 @@ class ProjectRepository(BaseRepository[Project]):
 
 ## Relaciones y Carga Eficiente (Evitar N+1)
 
+Cuando trabajamos con datos relacionados (como un proyecto y sus tareas), una consulta ineficiente puede provocar un problema de rendimiento conocido como "N+1", donde la aplicación realiza cientos de consultas a la base de datos en lugar de una o dos. El código a continuación primero define la relación entre los modelos y luego muestra cómo usar estrategias de carga "eager loading" (carga ansiosa) para pedirle a SQLAlchemy que traiga todos los datos necesarios de forma inteligente en una sola operación, evitando cuellos de botella.
+
 \`\`\`python
 # models.py
 from sqlmodel import SQLModel, Field, Relationship
@@ -870,6 +891,8 @@ async def get_project_with_tasks(project_id: int, session: SessionDep):
 ---
 
 ## Testing: Rollback Automático por Test
+
+Un código robusto requiere pruebas automatizadas. Sin embargo, testear operaciones de base de datos puede ser lento y complicado, ya que cada test podría dejar datos basura que afecten al siguiente. La siguiente configuración de testing soluciona este problema de raíz: cada test se ejecuta dentro de una transacción que se revierte automáticamente al finalizar. Esto garantiza que cada prueba comience con una base de datos limpia, haciendo los tests rápidos, fiables y completamente aislados entre sí.
 
 \`\`\`python
 # conftest.py
@@ -949,6 +972,8 @@ async def test_list_projects(client):
 ---
 
 ## Migraciones con Alembic (Async)
+
+A medida que nuestro proyecto evoluciona, la estructura de la base de datos (las tablas y columnas) inevitablemente cambiará. Gestionar estos cambios manualmente es arriesgado. "Alembic" es una herramienta que nos permite versionar la estructura de nuestra base de datos de la misma forma que Git versiona nuestro código. El siguiente código muestra cómo configurar Alembic para que funcione en un entorno asíncrono, permitiéndonos aplicar y revertir cambios en la base de datos de forma segura y automatizada.
 
 \`\`\`ini
 # alembic.ini
@@ -1052,7 +1077,9 @@ SQLAlchemy 2.0 + FastAPI = **async nativo, type-safe, y performante**.
     slug: 'docker-proyectos-practico-despliegue',
     title: 'Docker para Proyectos: Por Qué y Cómo Desplegar en Contenedores',
     excerpt: 'La guía práctica para contenedorizar aplicaciones: consistencia entre entornos, Docker Compose, multi-stage builds, networking, volúmenes, CI/CD y patrones de producción.',
-    content: `# Docker para Proyectos: Por Qué y Cómo Desplegar en Contenedores
+    content: `Cuando nuestra aplicación depende de servicios externos (APIs) que no controlamos, como un servicio de clima, un procesador de pagos o una red social, vivimos con un riesgo constante: ¿qué pasa si ese servicio cambia su formato de respuesta sin avisar? Un cambio inesperado puede romper nuestra aplicación en producción. El "testing de contrato" es una estrategia defensiva que nos permite verificar automáticamente que estas APIs externas siguen cumpliendo el "contrato" acordado. Este artículo explica de forma práctica cómo implementar estos tests para ganar estabilidad y confianza, asegurando que nuestra aplicación no falle por cambios de terceros.
+
+# Docker para Proyectos: Por Qué y Cómo Desplegar en Contenedores
 
 ## El problema real: "En mi máquina funciona"
 
