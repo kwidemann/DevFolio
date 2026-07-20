@@ -179,11 +179,11 @@ export function Skills() {
               Actualmente explorando
             </motion.h3>
             <motion.p className="text-lg opacity-90 mb-6 max-w-2xl mx-auto">
-              Rust, WebAssembly, arquitectura de sistemas distribuidos, y optimización de rendimiento
-              en el navegador. ¿Tienes un proyecto interesante? <Link href="#contact" className="underline hover:no-underline">Hablemos</Link>.
+              Magíster en Inteligencia Artificial, TypeScript y Next.js avanzados, arquitectura de sistemas distribuidos,
+              y optimización de rendimiento en el navegador. ¿Tienes un proyecto interesante? <Link href="#contact" className="underline hover:no-underline">Hablemos</Link>.
             </motion.p>
             <motion.div className="flex flex-wrap justify-center gap-2">
-              {['Rust', 'WebAssembly', 'gRPC', 'Kubernetes', 'Temporal.io', 'ClickHouse'].map((tech, i) => (
+              {['TypeScript', 'Next.js 14', 'Rust', 'WebAssembly', 'gRPC', 'Kubernetes'].map((tech, i) => (
                 <motion.span
                   key={tech}
                   className="px-3 py-1 rounded-full bg-white/10 text-sm font-medium border border-white/20"

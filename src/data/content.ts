@@ -10,7 +10,7 @@ export const profile: ProfileRead = {
   avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=klaus',
   email: 'kwidemann@gmail.com',
   location: 'Valdivia, Chile',
-  website: 'https://devfolio.example.com',
+  website: 'https://kwidemann.dpdns.org',
   github_url: 'https://github.com/kwidemann',
   linkedin_url: 'https://www.linkedin.com/in/klaus-widemann-774b9496',
   twitter_url: null,
@@ -52,6 +52,7 @@ export const skills: SkillRead[] = [
   { id: 25, name: 'Workflow Optimization', category: 'soft', proficiency: 4, icon: 'trending-up', sort_order: 25, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
   { id: 26, name: 'Comunicación con stakeholders', category: 'soft', proficiency: 4, icon: 'message-square', sort_order: 26, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
   { id: 27, name: 'Documentación y soporte', category: 'soft', proficiency: 4, icon: 'book-open', sort_order: 27, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
+  { id: 28, name: 'TypeScript', category: 'frontend', proficiency: 3, icon: 'file-code', sort_order: 28, created_at: '2024-01-01T00:00:00.000Z', updated_at: '2024-01-01T00:00:00.000Z' },
 ];
 
 export const projects: ProjectRead[] = [
@@ -134,7 +135,7 @@ export const projects: ProjectRead[] = [
     slug: 'devfolio-portfolio',
     title: 'DevFolio - Este Portfolio',
     short_description: 'Portfolio personal standalone con Next.js 14, TypeScript, Tailwind CSS, Framer Motion y dark mode.',
-    description: 'Mi portfolio personal construido como proyecto standalone de alto rendimiento. Next.js 14 App Router con React Server Components, TypeScript strict mode, Tailwind CSS token-driven, Framer Motion para animaciones, dark mode con next-themes, y datos locales tipados en content.ts. Características: SSG para máximo rendimiento SEO, animaciones fluidas, dark mode persistente, responsive mobile-first, SEO optimizado, accesibilidad WCAG 2.1 AA, y arquitectura preparada para migrar a API externa sin tocar componentes. Despliegue en Vercel, Netlify o Docker. Objetivo: demostrar competencias modernas de frontend y arquitectura.',
+    description: 'Mi portfolio personal construido como proyecto standalone de alto rendimiento. Next.js 14 App Router con React Server Components, TypeScript strict mode, componentes tipados end-to-end, Tailwind CSS token-driven, Framer Motion para animaciones, dark mode con next-themes, y datos locales tipados en content.ts. Características: SSG para máximo rendimiento SEO, animaciones fluidas, dark mode persistente, responsive mobile-first, SEO optimizado, accesibilidad WCAG 2.1 AA, y arquitectura preparada para migrar a API externa sin tocar componentes. Despliegue en Vercel, Netlify o Docker. Objetivo: demostrar competencias modernas de frontend y arquitectura.',
     thumbnail_url: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800',
     images: ['https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200'],
     tech_stack: ['Next.js 14', 'React 18', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'next-themes', '@tanstack/react-query', 'Zod', 'react-hook-form', 'lucide-react', 'sonner', 'next-mdx-remote', 'pnpm', 'Vitest', 'Playwright'],
