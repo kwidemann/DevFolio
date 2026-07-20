@@ -184,7 +184,7 @@ export function Skills() {
               y optimización de rendimiento en el navegador. ¿Tienes un proyecto interesante? <Link href="#contact" className="underline hover:no-underline">Hablemos</Link>.
             </motion.p>
             <motion.div className="flex flex-wrap justify-center gap-2">
-              {['TypeScript', 'Next.js 14', 'Rust', 'WebAssembly', 'gRPC', 'Kubernetes'].map((tech, i) => (
+              {['TypeScript', 'Next.js 14', 'Kubernetes'].map((tech, i) => (
                 <motion.span
                   key={tech}
                   className="px-3 py-1 rounded-full bg-white/10 text-sm font-medium border border-white/20"

@@ -1083,7 +1083,7 @@ SQLAlchemy 2.0 + FastAPI = **async nativo, type-safe, y performante**.
     slug: 'docker-proyectos-practico-despliegue',
     title: 'Docker para Proyectos: Por Qué y Cómo Desplegar en Contenedores',
     excerpt: 'La guía práctica para contenedorizar aplicaciones: consistencia entre entornos, Docker Compose, multi-stage builds, networking, volúmenes, CI/CD y patrones de producción.',
-    content: `Cuando nuestra aplicación depende de servicios externos (APIs) que no controlamos, como un servicio de clima, un procesador de pagos o una red social, vivimos con un riesgo constante: ¿qué pasa si ese servicio cambia su formato de respuesta sin avisar? Un cambio inesperado puede romper nuestra aplicación en producción. El "testing de contrato" es una estrategia defensiva que nos permite verificar automáticamente que estas APIs externas siguen cumpliendo el "contrato" acordado. Este artículo explica de forma práctica cómo implementar estos tests para ganar estabilidad y confianza, asegurando que nuestra aplicación no falle por cambios de terceros.
+    content: `Docker brinda una capa de consistencia entre el escritorio del desarrollador, el pipeline de CI y el entorno de producción. En este artículo veremos por qué containerizar aplicaciones deja de ser un lujo y se convierte en una necesidad para mantener despliegues predecibles, seguros y escalables.
 
 # Docker para Proyectos: Por Qué y Cómo Desplegar en Contenedores
 

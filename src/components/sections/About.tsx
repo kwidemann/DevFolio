@@ -1,17 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useProfile } from '@/hooks/useApi';
+import { useBlogPosts, useProfile } from '@/hooks/useApi';
 import { cn } from '@/lib/utils';
 import { Target, Heart, Zap, Users, BookOpen, Globe } from 'lucide-react';
 
-const stats = [
-  { label: 'Proyectos completados', value: '15+', icon: Target },
+const staticStats = [
+  { label: 'Proyectos completados', value: '6+', icon: Target },
   { label: 'Años de experiencia', value: '5+', icon: Zap },
   { label: 'Tecnologías dominadas', value: '20+', icon: Heart },
   { label: 'Clientes satisfechos', value: '2', icon: Users },
-  { label: 'Artículos técnicos', value: '12+', icon: BookOpen },
-  { label: 'Países trabajados', value: '4+', icon: Globe },
+  { label: 'Países trabajados', value: '1', icon: Globe },
 ];
 
 const values = [
@@ -49,8 +48,9 @@ const itemVariants = {
 
 export function About() {
   const { data: profile, isLoading } = useProfile();
+  const { data: blogData, isLoading: blogLoading } = useBlogPosts();
 
-  if (isLoading) {
+  if (isLoading || blogLoading) {
     return (
       <section id="about" className="section bg-muted/30" aria-labelledby="about-title">
         <div className="container-custom">
@@ -78,6 +78,7 @@ export function About() {
   const location = profile?.location;
   const website = profile?.website || 'devfolio.example.com';
   const email = profile?.email || 'klaus@devfolio.example.com';
+  const publishedArticlesCount = blogData?.total ?? 0;
 
   return (
     <section id="about" className="section bg-muted/30" aria-labelledby="about-title">
@@ -131,7 +132,7 @@ export function About() {
           animate="visible"
         >
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 mb-16">
-            {stats.map((stat, i) => {
+            {staticStats.map((stat, i) => {
               const Icon = stat.icon;
               return (
                 <motion.div
@@ -153,6 +154,23 @@ export function About() {
                 </motion.div>
               );
             })}
+            <motion.div
+              key="Artículos técnicos"
+              variants={itemVariants}
+              className="group relative p-6 rounded-2xl bg-card border border-border hover:border-primary/30 transition-all duration-300"
+              whileHover={{ y: -4, boxShadow: '0 20px 40px -10px hsl(var(--primary) / 0.1)' }}
+            >
+              <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" aria-hidden="true" />
+              <div className="relative flex items-center gap-4">
+                <div className="relative p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                  <BookOpen className="h-6 w-6" aria-hidden="true" />
+                </div>
+                <div className="text-left">
+                  <p className="text-2xl lg:text-3xl font-bold text-foreground">{publishedArticlesCount > 0 ? `${publishedArticlesCount}+` : '0'}</p>
+                  <p className="text-sm text-muted-foreground">Artículos técnicos</p>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </motion.div>
 

@@ -2,11 +2,19 @@
 
 import { useTheme } from 'next-themes';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { Sun, Moon, Monitor } from 'lucide-react';
 
 export function ThemeToggle() {
   const { theme = 'system', setTheme, resolvedTheme = 'light' } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const currentTheme = theme === 'system' ? (resolvedTheme as 'light' | 'dark') : theme;
+  const themeMode = currentTheme as 'light' | 'dark' | 'system';
 
   const icons = {
     light: <Sun className="h-5 w-5" />,
@@ -29,19 +37,25 @@ export function ThemeToggle() {
           setTheme(themes[(currentIndex + 1) % themes.length]);
         }}
         className="btn-ghost relative inline-flex items-center gap-2 h-10 rounded-lg px-3"
-        aria-label={labels[theme as 'light' | 'dark' | 'system']}
-        title={labels[theme as 'light' | 'dark' | 'system']}
+        aria-label={labels[themeMode]}
+        title={labels[themeMode]}
         suppressHydrationWarning
       >
         <motion.div
-          animate={{ rotate: theme === 'dark' ? 180 : 0 }}
+          animate={{ rotate: themeMode === 'dark' ? 180 : 0 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
           className="flex h-full w-full items-center justify-center"
         >
-          {icons[theme as 'light' | 'dark' | 'system']}
+          {mounted ? icons[themeMode] : icons.system}
         </motion.div>
         <span className="text-sm font-medium">
-          {theme === 'dark' ? 'Dark' : theme === 'light' ? 'Light' : 'System'}
+          {mounted
+            ? themeMode === 'dark'
+              ? 'Dark'
+              : themeMode === 'light'
+              ? 'Light'
+              : 'System'
+            : 'System'}
         </span>
       </button>
 
