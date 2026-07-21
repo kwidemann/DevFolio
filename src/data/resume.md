@@ -1,6 +1,6 @@
 ## Klaus Christopher Widemann Müller
 
-Valdivia, Chile | (+56) 9 737 949 21 | kwidemann@gmail.com | LinkedIn: https://github.com/kwidemann/ | GitHub: www.linkedin.com/in/klaus-widemann-774b9496 [URL 🔗](http://www.linkedin.com/in/klaus-widemann-774b9496)
+Valdivia, Chile | (+56) 9 737 949 21 | kwidemann@gmail.com | [LinkedIn](https://www.linkedin.com/in/klaus-widemann-774b9496) | [GitHub](https://github.com/kwidemann)
 
 ## Professional Summary
 
@@ -23,47 +23,26 @@ Backend Engineer with 4+ years of experience designing, building, deploying, and
 - Relational Database Design
 
 - SQL Query Optimization
-
 - Data Validation
-
 - Reporting Solutions
-
 - Docker
-
 - Git
-
 - GitHub
-
 - GitHub Actions
-
 - CI/CD Pipelines
-
 - Linux
-
 - Cloud Virtual Machines
-
 - Deployment Automation
-
 - Production Support
-
 - Process Automation
-
-
-Workflow Optimization
-
-Google Workspace Administration
-
-Flet
-
-VBA
-
-C# (Basic)
-
-VS Code
-
-GitHub Copilot
-
-LaTeX
+- Workflow Optimization
+- Google Workspace Administration
+- Flet
+- VBA
+- C# (Basic)
+- VS Code
+- GitHub Copilot
+- LaTeX
 
 ## Professional Experience
 
