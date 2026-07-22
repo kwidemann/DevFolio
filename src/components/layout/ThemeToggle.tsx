@@ -28,8 +28,21 @@ export function ThemeToggle() {
     system: 'Sistema',
   } as const;
 
+  if (!mounted) {
+    return (
+      <button
+        className="btn-ghost relative inline-flex items-center gap-2 h-10 rounded-lg px-3"
+        aria-label={labels.system}
+        title={labels.system}
+      >
+        <Monitor className="h-5 w-5" />
+        <span className="text-sm font-medium">System</span>
+      </button>
+    );
+  }
+
   return (
-    <div className="relative inline-flex items-center" suppressHydrationWarning>
+    <div className="relative inline-flex items-center">
       <button
         onClick={() => {
           const themes = ['light', 'dark', 'system'] as const;
@@ -39,23 +52,16 @@ export function ThemeToggle() {
         className="btn-ghost relative inline-flex items-center gap-2 h-10 rounded-lg px-3"
         aria-label={labels[themeMode]}
         title={labels[themeMode]}
-        suppressHydrationWarning
       >
         <motion.div
           animate={{ rotate: themeMode === 'dark' ? 180 : 0 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
           className="flex h-full w-full items-center justify-center"
         >
-          {mounted ? icons[themeMode] : icons.system}
+          {icons[themeMode]}
         </motion.div>
         <span className="text-sm font-medium">
-          {mounted
-            ? themeMode === 'dark'
-              ? 'Dark'
-              : themeMode === 'light'
-              ? 'Light'
-              : 'System'
-            : 'System'}
+          {themeMode === 'dark' ? 'Dark' : themeMode === 'light' ? 'Light' : 'System'}
         </span>
       </button>
 

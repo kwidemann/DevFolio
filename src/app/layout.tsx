@@ -29,13 +29,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Klaus Widemann | Full Stack Developer',
-    description: 'Full Stack Developer especializado en React, TypeScript, Python y Cloud.',
-    images: ['/og-image.png'],
-    creator: '@klauswidemann',
-  },
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',

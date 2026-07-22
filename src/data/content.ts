@@ -3,7 +3,7 @@ import type { ProfileRead, ProjectRead, BlogPostRead, SkillRead } from '@/types'
 export const profile: ProfileRead = {
   id: 1,
   name: 'Klaus Christopher Widemann Müller',
-  title: 'Backend Engineer / Head of Control & Procedures',
+  title: 'Industrial Engineer | Software Engineer | Backend Development, Data & Automation | Python, FastAPI, Docker, Oracle SQL | AI/ML',
   tagline: 'Backend engineer con experiencia en ERP, automatización de procesos y despliegues de producción.',
   bio: 'Ingeniero backend con más de 4 años de experiencia diseñando, construyendo, desplegando y manteniendo software de producción con Python. Construí y operé un ERP a medida para una escuela de conducción profesional, soportando administración, reportes, control de procesos y workflows de atención al cliente. Trabajo con FastAPI, Oracle SQL, Docker, GitHub Actions, Linux y despliegues en la nube. Mi foco es traducir requerimientos de negocio en soluciones técnicas confiables, automatizar tareas repetitivas y garantizar continuidad operativa.',
   short_bio: 'Backend engineer especializado en ERP, APIs y automatización. Experto en Python, FastAPI, Oracle SQL y despliegues productivos.',

@@ -2,14 +2,13 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { resumeIntroHighlights } from '@/data/resume';
 
-const highlights = [
-  '4+ años desarrollando software de producción con Python y FastAPI.',
-  'ERP personalizado operativo, con despliegues Docker y GitHub Actions.',
-  'Foco en automatización, continuidad operativa y calidad de entrega.',
-];
+type ResumeIntroProps = {
+  highlights?: string[];
+};
 
-export function ResumeIntro() {
+export function ResumeIntro({ highlights = resumeIntroHighlights }: ResumeIntroProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 28 }}
@@ -43,7 +42,7 @@ export function ResumeIntro() {
         <div className="rounded-[2rem] border border-border bg-primary/5 p-6 shadow-lg shadow-primary/5">
           <h2 className="text-xl font-semibold text-foreground mb-4">Lo que encontrarás aquí</h2>
           <ul className="space-y-4 text-body text-muted-foreground">
-            {highlights.map((highlight) => (
+            {resumeIntroHighlights.map((highlight) => (
               <li key={highlight} className="flex gap-3">
                 <span className="mt-1 h-2.5 w-2.5 rounded-full bg-primary" aria-hidden="true" />
                 <span>{highlight}</span>

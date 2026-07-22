@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
-import { Menu, X, Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Mail } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const navLinks = [
@@ -18,7 +18,6 @@ const navLinks = [
 const socialLinks = [
   { href: 'https://github.com/klauswidemann', icon: Github, label: 'GitHub' },
   { href: 'https://linkedin.com/in/klauswidemann', icon: Linkedin, label: 'LinkedIn' },
-  { href: 'https://twitter.com/klauswidemann', icon: Twitter, label: 'Twitter' },
   { href: 'mailto:klaus@devfolio.example.com', icon: Mail, label: 'Email' },
 ];
 

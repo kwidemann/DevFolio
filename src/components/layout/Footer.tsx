@@ -1,10 +1,9 @@
 import Link from 'next/link';
-import { Github, Linkedin, Twitter, Mail, Heart, Code2, Coffee } from 'lucide-react';
+import { Github, Linkedin, Mail, Heart, Code2, Coffee } from 'lucide-react';
 
 const socialLinks = [
   { href: 'https://github.com/klauswidemann', icon: Github, label: 'GitHub' },
   { href: 'https://linkedin.com/in/klauswidemann', icon: Linkedin, label: 'LinkedIn' },
-  { href: 'https://twitter.com/klauswidemann', icon: Twitter, label: 'Twitter' },
   { href: 'mailto:klaus@devfolio.example.com', icon: Mail, label: 'Email' },
 ];
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Copy, Share2, Twitter, Linkedin } from 'lucide-react';
+import { Copy, Share2, Linkedin } from 'lucide-react';
 
 export function ShareButton({ url, title }: { url: string; title: string }) {
   const [copied, setCopied] = useState(false);
@@ -11,7 +11,6 @@ export function ShareButton({ url, title }: { url: string; title: string }) {
     const encodedUrl = encodeURIComponent(fullUrl);
     const encodedTitle = encodeURIComponent(title);
     const urls: Record<string, string> = {
-      twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
       linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
       github: `https://github.com/klauswidemann/devfolio/issues/new?title=${encodedTitle}&body=${encodedUrl}`,
     };
@@ -33,9 +32,6 @@ export function ShareButton({ url, title }: { url: string; title: string }) {
 
   return (
     <div className="flex items-center gap-1">
-      <button onClick={() => handleShare('twitter')} className="btn-ghost btn-sm p-2" aria-label="Compartir en Twitter">
-        <Twitter className="h-5 w-5" aria-hidden="true" />
-      </button>
       <button onClick={() => handleShare('linkedin')} className="btn-ghost btn-sm p-2" aria-label="Compartir en LinkedIn">
         <Linkedin className="h-5 w-5" aria-hidden="true" />
       </button>

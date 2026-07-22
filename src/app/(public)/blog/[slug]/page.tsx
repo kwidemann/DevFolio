@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { PublicLayout } from '@/components/layout/PublicLayout';
 import { getBlogPostBySlug } from '@/data/content';
 import { formatDate, getReadingTime, extractHeadings } from '@/lib/utils';
-import { Calendar, Clock, Tag, ArrowLeft, ChevronRight, Github, Twitter, Linkedin, FileText } from 'lucide-react';
+import { Calendar, Clock, Tag, ArrowLeft, ChevronRight, Github, Linkedin, FileText } from 'lucide-react';
 import { MotionDiv, MotionH1, MotionP, MotionArticle } from '@/components/animations/ClientMotion';
 import Link from 'next/link';
 import { ShareButton } from '@/components/ShareButton';

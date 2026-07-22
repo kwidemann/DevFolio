@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowRight, Github, Linkedin, Twitter, Mail, Code2, Zap, Rocket } from 'lucide-react';
+import { ArrowRight, Github, Linkedin, Mail, Code2, Zap, Rocket } from 'lucide-react';
 import { useProfile } from '@/hooks/useApi';
 import { cn } from '@/lib/utils';
 
@@ -49,7 +49,7 @@ export function Hero() {
   }
 
   const name = profile?.name || 'Klaus Widemann';
-  const title = profile?.title || 'Full Stack Developer';
+  const title = profile?.title || 'Industrial Engineer | Software Engineer | Backend Development, Data & Automation | Python, FastAPI, Docker, Oracle SQL | AI/ML';
   const tagline = profile?.tagline || 'Construyo productos digitales robustos, escalables y bonitos.';
   const shortBio = profile?.short_bio || 'Especializado en React, TypeScript, Python y Cloud.';
   const avatarUrl = profile?.avatar_url;
@@ -57,7 +57,6 @@ export function Hero() {
   const socialLinks = [
     { icon: Github, href: profile?.github_url || 'https://github.com/klauswidemann', label: 'GitHub' },
     { icon: Linkedin, href: profile?.linkedin_url || 'https://linkedin.com/in/klauswidemann', label: 'LinkedIn' },
-    { icon: Twitter, href: profile?.twitter_url || 'https://twitter.com/klauswidemann', label: 'Twitter' },
     { icon: Mail, href: `mailto:${profile?.email || 'klaus@devfolio.example.com'}`, label: 'Email' },
   ];
 

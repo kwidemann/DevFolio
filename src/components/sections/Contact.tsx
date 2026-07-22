@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useContactForm } from '@/hooks/useApi';
 import { useProfile } from '@/hooks/useApi';
 import { cn } from '@/lib/utils';
-import { Mail, Send, CheckCircle, AlertCircle, Loader2, MessageSquare, MapPin, Globe, Linkedin, Github, Twitter } from 'lucide-react';
+import { Mail, Send, CheckCircle, AlertCircle, Loader2, MessageSquare, MapPin, Globe, Linkedin, Github } from 'lucide-react';
 import { toast } from 'sonner';
 
 const containerVariants = {
@@ -86,7 +86,6 @@ export function Contact() {
   const socialLinks = [
     { icon: Github, label: 'GitHub', href: profile?.github_url || 'https://github.com/klauswidemann' },
     { icon: Linkedin, label: 'LinkedIn', href: profile?.linkedin_url || 'https://linkedin.com/in/klauswidemann' },
-    { icon: Twitter, label: 'Twitter', href: profile?.twitter_url || 'https://twitter.com/klauswidemann' },
   ];
 
   return (

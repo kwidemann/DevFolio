@@ -384,9 +384,6 @@ export default function ProjectDetailPage({ params }: PageProps) {
                   <div className="bg-gradient-primary/10 border border-primary/20 rounded-2xl p-6 text-center">
                     <p className="text-sm text-muted-foreground mb-4">¿Te gusta este proyecto?</p>
                     <div className="flex justify-center gap-3">
-                      <button className="btn-ghost btn-sm" aria-label="Compartir en Twitter">
-                        <Twitter className="h-5 w-5" aria-hidden="true" />
-                      </button>
                       <button className="btn-ghost btn-sm" aria-label="Compartir en LinkedIn">
                         <Linkedin className="h-5 w-5" aria-hidden="true" />
                       </button>
