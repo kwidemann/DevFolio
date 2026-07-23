@@ -4,7 +4,7 @@ import { PublicLayout } from '@/components/layout/PublicLayout';
 import { getProjectBySlug } from '@/data/content';
 import { formatDate, cn } from '@/lib/utils';
 import Link from 'next/link';
-import { Github, ExternalLink, ArrowLeft, ArrowRight, Clock, Calendar, Tag, Star, Code2, Server, Database, Cpu, Wrench, Users } from 'lucide-react';
+import { Github, ExternalLink, ArrowLeft, ArrowRight, Clock, Calendar, Tag, Star, Code2, Server, Database, Cpu, Wrench, Users, TrendingUp, Circle, FileText, Linkedin, Copy } from 'lucide-react';
 import { MotionDiv, MotionH1, MotionP, MotionArticle, MotionSpan } from '@/components/animations/ClientMotion';
 
 interface PageProps {
@@ -459,5 +459,3 @@ function RelatedProjects({ currentSlug }: { currentSlug: string }) {
     </div>
   );
 }
-
-import { Circle, TrendingUp, FileText, Twitter, Linkedin, Copy } from 'lucide-react';

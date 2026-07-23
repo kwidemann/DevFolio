@@ -13,7 +13,6 @@ export const profile: ProfileRead = {
   website: 'https://kwidemann.dpdns.org',
   github_url: 'https://github.com/kwidemann',
   linkedin_url: 'https://www.linkedin.com/in/klaus-widemann-774b9496',
-  twitter_url: null,
   cv_url: '/resume',
   social_links: [
     { platform: 'GitHub', url: 'https://github.com/kwidemann', icon: 'github' },

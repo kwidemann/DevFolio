@@ -21,7 +21,7 @@ const values = [
   },
   {
     title: 'Experiencia de usuario',
-    description: 'Cada interacción importa. Accesibilidad WCAG 2.1 AA, rendimiento Core Web Vitals, y animaciones respetuosas.',
+    description: 'Mi enfoque es que la aplicación se use sin pensar: navegación intuitiva, contenido legible y micro-animaciones útiles.',
     icon: Target,
   },
   {
